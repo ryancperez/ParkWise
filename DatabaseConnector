@@ -1,0 +1,33 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DatabaseConnector {
+    private static final String JDBC_URL = "jdbc:mysql://hostName:3306/ParkWise";
+    private static final String USERNAME = "USERNAME";
+    private static final String PASSWORD = "PASSWORD";
+
+    private Connection connection;
+
+    public DatabaseConnector() {
+        try {
+            connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void closeConnection() {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
