@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/parkwisebackground"
+    tools:context=".User_toolbar">
+
+    <ImageButton
+        android:id="@+id/mainButton"
+        android:src="@drawable/parkwiselocked"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:scaleType="fitCenter"
+        android:background="@null" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:scaleType="matrix"
+        app:srcCompat="@drawable/appborders" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="118dp"
+        android:layout_below="@id/imageView"
+        android:layout_marginTop="544dp"
+        android:scaleType="matrix"
+        app:srcCompat="@drawable/appborders" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+        android:paddingTop="12dp"
+        android:fontFamily="monospace"
+        android:text="ParkWise"
+        android:textAlignment="center"
+        android:textColor="@color/material_dynamic_neutral80"
+        android:textSize="50dp" />
+
+    <ImageButton
+        android:id="@+id/homeButton"
+        android:layout_width="104dp"
+        android:layout_height="119dp"
+        android:layout_alignBottom="@id/imageView2"
+        android:layout_marginBottom="-10dp"
+        android:background="@null"
+        android:paddingLeft="20dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/homeicon" />
+
+    <ImageButton
+        android:id="@+id/accButton"
+        android:layout_width="102dp"
+        android:layout_height="90dp"
+        android:layout_alignBottom="@id/imageView2"
+        android:layout_marginLeft="42dp"
+        android:layout_marginBottom="-1dp"
+        android:layout_toRightOf="@id/homeButton"
+        android:background="@null"
+        android:paddingBottom="15dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/accicongray" />
+
+    <ImageButton
+        android:id="@+id/setButton"
+        android:layout_width="102dp"
+        android:layout_height="80dp"
+        android:layout_alignBottom="@id/imageView2"
+        android:layout_marginLeft="38dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/accButton"
+        android:background="@null"
+        android:paddingBottom="15dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/seticongray" />
+
+
+</RelativeLayout>
