@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnector {
+    //Hello
     private static final String JDBC_URL = "jdbc:mysql://seniordesign.cebxcsadv7hz.us-west-1.rds.amazonaws.com:3306/ParkWise";
     private static final String USERNAME = "CodeMaster";
     private static final String PASSWORD = "OmegaLambda246";
