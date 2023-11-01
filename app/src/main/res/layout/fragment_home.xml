@@ -71,6 +71,11 @@
             android:background="#C7C9CB"  />
     </LinearLayout>
 
+    <ImageView
+        android:layout_marginTop="205dp"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:src="@drawable/csunmapplaceholder"   />
 
 
 </RelativeLayout>
