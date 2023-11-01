@@ -75,12 +75,12 @@ public class Payment extends Fragment {
         chipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
-                for (int i = 0;i<checkedIds.size();i++){
-                    if(checkedIds.get(i) != -1)
+                    if(checkedIds.size() > 0) {
                         confirmButton.setEnabled(true);
+                    }
                     else
                         confirmButton.setEnabled(false);
-            }
+
         }});
         // Inflate the layout for this fragment
         return view;
