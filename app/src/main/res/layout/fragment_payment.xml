@@ -13,22 +13,30 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="233dp"
-            android:layout_height="329dp"
+            android:layout_width="250dp"
+            android:layout_height="325dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="1dp"
+            android:background="@drawable/round_back_white10_20"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="15dp"
+                android:layout_height="match_parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_Group"
-                android:layout_width="113dp"
+                android:layout_width="110dp"
                 android:layout_height="match_parent"
+                android:paddingLeft="5dp"
                 app:singleSelection="true">
 
 
@@ -73,7 +81,7 @@
             </com.google.android.material.chip.ChipGroup>
 
             <LinearLayout
-                android:layout_width="117dp"
+                android:layout_width="110dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -83,8 +91,9 @@
                     android:layout_height="75dp"
                     android:clickable="false"
                     android:paddingTop="25dp"
-                    android:text="00:30"
+                    android:text="$10.00"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
                 <TextView
@@ -92,8 +101,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="81dp"
                     android:paddingTop="34dp"
-                    android:text="01:00"
+                    android:text="$12.00"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
                 <TextView
@@ -101,8 +111,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="85dp"
                     android:paddingTop="34dp"
-                    android:text="02:00"
+                    android:text="$15.00"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
                 <TextView
@@ -110,8 +121,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="85dp"
                     android:paddingTop="34dp"
-                    android:text="24:00"
+                    android:text="$25.00"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>
 
