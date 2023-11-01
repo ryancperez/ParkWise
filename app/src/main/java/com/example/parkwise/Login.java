@@ -1,5 +1,6 @@
 package com.example.parkwise;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -33,8 +34,15 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login();
+                openMenu();
             }
         });
+
+
+    }
+    private void openMenu(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void login() {

@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="whiteAlpha">#10FFFFFF</color>
     <color name="my_primary">#1B66C1</color>
     <color name="my_secondary">#164681</color>
     <color name="purple_200">#FFBB86FC</color>
@@ -17,4 +18,7 @@
     <color name="notification">#13B2C3</color>
     <color name="private_account">#E6A326</color>
     <color name="security">#D95F69</color>
+
+    <color name="mediumGray">#D1D1D1</color>
+    <color name="darkGray">#858585</color>
 </resources>

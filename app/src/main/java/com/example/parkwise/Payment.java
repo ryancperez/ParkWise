@@ -1,12 +1,17 @@
 package com.example.parkwise;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +32,9 @@ public class Payment extends Fragment {
     public Payment() {
         // Required empty public constructor
     }
+
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -53,12 +61,31 @@ public class Payment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_payment, container, false);
+        ChipGroup chipGroup = view.findViewById(R.id.chip_Group);
+        Button confirmButton = view.findViewById(R.id.CPbutton);
+        chipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
+                for (int i = 0;i<checkedIds.size();i++){
+                    if(checkedIds.get(i) != -1)
+                        confirmButton.setEnabled(true);
+                    else
+                        confirmButton.setEnabled(false);
+            }
+        }});
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_payment, container, false);
+        return view;
     }
+
+
+
 }
