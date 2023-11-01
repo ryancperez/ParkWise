@@ -90,7 +90,8 @@
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="81dp"
+                    android:paddingTop="34dp"
                     android:text="01:00"
                     android:textAlignment="center"
                     android:textSize="18sp" />
@@ -98,7 +99,8 @@
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="85dp"
+                    android:paddingTop="34dp"
                     android:text="02:00"
                     android:textAlignment="center"
                     android:textSize="18sp" />
@@ -106,7 +108,8 @@
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="85dp"
+                    android:paddingTop="34dp"
                     android:text="24:00"
                     android:textAlignment="center"
                     android:textSize="18sp" />
