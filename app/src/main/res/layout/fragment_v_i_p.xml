@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".HomeFragment">
+
+    <ImageButton
+        android:id="@+id/mainButton"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/parkwiselocked" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:scaleType="matrix"
+        app:srcCompat="@color/my_primary" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+        android:background="@color/my_primary"
+        android:fontFamily="monospace"
+        android:paddingTop="12dp"
+        android:text="ParkWise"
+        android:textAlignment="center"
+        android:textColor="@color/material_dynamic_neutral80"
+        android:textSize="50dp" />
+
+
+
+</RelativeLayout>

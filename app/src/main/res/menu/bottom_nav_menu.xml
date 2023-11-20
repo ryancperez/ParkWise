@@ -7,6 +7,19 @@
         android:layout_height="wrap_content"
         android:title="Home"
         android:icon="@drawable/homeicon"/>
+
+    <item
+        android:id="@+id/payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Payment"
+        android:icon="@drawable/payment_icon"/>
+    <item
+        android:id="@+id/VIP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="VIP"
+        android:icon="@drawable/baseline_diamond_24"/>
     <item
         android:id="@+id/settings"
         android:layout_width="wrap_content"

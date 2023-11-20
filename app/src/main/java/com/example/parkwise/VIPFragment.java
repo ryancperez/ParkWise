@@ -14,7 +14,7 @@ import android.widget.ImageButton;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class VIPFragment extends Fragment {
 
     private ImageButton mainButton;
     private ImageButton homeButton;
@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public HomeFragment() {
+    public VIPFragment() {
         // Required empty public constructor
     }
 
@@ -69,8 +69,24 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_v_i_p, container, false);
 
+        mainButton = view.findViewById(R.id.mainButton);
+
+        mainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!lock) {
+                    lock = true;
+                    mainButton.setImageDrawable(getResources().getDrawable(R.drawable.parkwiseunlocked));
+                } else {
+                    lock = false;
+                    mainButton.setImageDrawable(getResources().getDrawable(R.drawable.parkwiselocked));
+                }
+            }
+        });
+
+        // You can also initialize other UI elements here if needed
 
         return view;
     }
