@@ -1,13 +1,12 @@
 package com.example.parkwise;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +14,7 @@ import android.widget.ImageButton;
  * create an instance of this fragment.
  */
 public class VIPFragment extends Fragment {
+    motorActivation pillarActivation = new motorActivation();
 
     private ImageButton mainButton;
     private ImageButton homeButton;
@@ -78,8 +78,12 @@ public class VIPFragment extends Fragment {
             public void onClick(View view) {
                 if (!lock) {
                     lock = true;
+                    pillarActivation.run(4);
+
                     mainButton.setImageDrawable(getResources().getDrawable(R.drawable.parkwiseunlocked));
+
                 } else {
+                    pillarActivation.run(5);
                     lock = false;
                     mainButton.setImageDrawable(getResources().getDrawable(R.drawable.parkwiselocked));
                 }

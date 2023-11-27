@@ -35,6 +35,16 @@
         android:textColor="@color/material_dynamic_neutral80"
         android:textSize="50dp" />
 
+    <View
+        android:id="@+id/view2"
+        android:layout_width="179dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="116dp"
+        android:layout_marginEnd="116dp"
+        android:layout_marginBottom="96dp" />
 
 
 </RelativeLayout>
