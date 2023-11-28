@@ -96,28 +96,42 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
+        LatLng southwest = new LatLng(34.235407, -118.533842); // Replace with actual southwest coordinates
+        LatLng northeast = new LatLng(34.257348, -118.523345); // Replace with actual northeast coordinates
 
-        LatLng csunLatLng = new LatLng(34.2419, -118.5283); // CSUN's approximate center coordinates
-        float zoomLevel = 15f; // Fixed zoom level for CSUN's campus
+        LatLngBounds csunBounds = new LatLngBounds(southwest, northeast);
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(csunLatLng, zoomLevel));
+        // Adding parking lot markers
+        LatLng b5LatLng = new LatLng(34.241317, -118.533330);
+        addParkingLotMarker(b5LatLng, "B5", 1361); // Add more similarly
+
+        // Move camera to fit CSUN bounds with padding
+        int padding = 27; // Adjust padding as needed
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(csunBounds, padding));
 
         map.setOnMarkerClickListener(marker -> {
-            showLotInfo(marker);
+            // Show the info window when the marker is clicked
+            marker.showInfoWindow();
+
+            // Return false to indicate that we didn't consume the event yet
+            // This will allow the default behavior to occur (showing the info window)
             return false;
         });
 
-        // Adding parking lot markers
-        LatLng b5LatLng = new LatLng(34.241594, -118.532754);
-        addParkingLotMarker(b5LatLng, "B5", 50); // Add more similarly
-    }
+        map.setOnInfoWindowClickListener(marker -> {
+            // When the info window is tapped, zoom in on the marker's position
+            LatLng markerLoc = marker.getPosition();
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(markerLoc, 17.5f));
 
+            // Perform other actions or show information related to the clicked marker
+            showLotInfo(marker);
+        });
+    }
 
 
     // method for adding parking lot markers
     private void addParkingLotMarker(LatLng position, String lotName, int availableStalls) {
-        MarkerOptions markerOptions = new MarkerOptions().position(position).title("Parking Lot " + lotName);
+        MarkerOptions markerOptions = new MarkerOptions().position(position).title("Lot " + lotName);
         map.addMarker(markerOptions).setTag(new ParkingLotDetails(lotName, availableStalls));
     }
 
@@ -154,3 +168,4 @@ class ParkingLotDetails {
         return availableStalls;
     }
 }
+

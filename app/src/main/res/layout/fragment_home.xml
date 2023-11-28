@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".Payment">
+    tools:context=".HomeFragment">
 
     <TextView
         android:id="@+id/textView"
@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="#C7C9CB" />
+            android:background="@drawable/rounded_corners" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="#C7C9CB"  />
+            android:background="@drawable/rounded_corners" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,14 +68,17 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="#C7C9CB"  />
+            android:background="@drawable/rounded_corners" />
+
     </LinearLayout>
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/mapContainer"
-        android:layout_marginTop="215dp"
         android:layout_width="match_parent"
-        android:layout_height="500dp" />
+        android:layout_marginTop="215dp"
+        android:layout_alignParentBottom="true"
+        app:cardCornerRadius="28dp"
+        android:layout_height="500dp"/>
 
 
 
