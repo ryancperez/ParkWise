@@ -17,6 +17,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -75,12 +77,17 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used
-        mapFragment = SupportMapFragment.newInstance();
-        getChildFragmentManager().beginTransaction().replace(R.id.mapContainer, mapFragment).commit();
+        // Obtain the SupportMapFragment asynchronously
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapContainer);
+        if (mapFragment == null) {
+            mapFragment = SupportMapFragment.newInstance();
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.mapContainer, mapFragment)
+                    .commit();
+        }
+        mapFragment.getMapAsync(this); // This triggers onMapReady when the map is ready
 
         return view;
     }
@@ -89,23 +96,24 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        // Add markers for each parking lot
-        LatLng b5LatLng = new LatLng(34.241594, -118.532754);
-        addParkingLotMarker(b5LatLng, "B5", 50); // Add more similarly.
+        map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
+
+        LatLng csunLatLng = new LatLng(34.2419, -118.5283); // CSUN's approximate center coordinates
+        float zoomLevel = 15f; // Fixed zoom level for CSUN's campus
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(csunLatLng, zoomLevel));
 
         map.setOnMarkerClickListener(marker -> {
-            // Display parking lot details in window
             showLotInfo(marker);
             return false;
         });
 
-        // Setting coords to focus on CSUN campus using CameraUpdate
-        LatLng csunLatLng = new LatLng(34.2419, -118.5283); // CSUN's approximate center coordinates
-        float zoomLevel = 16f; // Adjust the zoom level as needed
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(csunLatLng, zoomLevel);
-        map.animateCamera(cameraUpdate);
+        // Adding parking lot markers
+        LatLng b5LatLng = new LatLng(34.241594, -118.532754);
+        addParkingLotMarker(b5LatLng, "B5", 50); // Add more similarly
     }
+
+
 
     // method for adding parking lot markers
     private void addParkingLotMarker(LatLng position, String lotName, int availableStalls) {
