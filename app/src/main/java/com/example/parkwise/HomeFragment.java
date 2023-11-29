@@ -102,8 +102,19 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         LatLngBounds csunBounds = new LatLngBounds(southwest, northeast);
 
         // Adding parking lot markers
-        LatLng b5LatLng = new LatLng(34.241317, -118.533330);
-        addParkingLotMarker(b5LatLng, "B5", 1361); // Add more similarly
+        LatLng b1 = new LatLng(34.236075, -118.533553);
+        addParkingLotMarker(b1, "B1", 480); // Add more similarly
+        LatLng b3 = new LatLng(34.238009,-118.532780);
+        addParkingLotMarker(b3, "B3", 2063);
+        LatLng b5 = new LatLng(34.241317, -118.533330);
+        addParkingLotMarker(b5, "B5", 1361);
+        LatLng b6 = new LatLng(34.242847, -118.532735);
+        addParkingLotMarker(b6, "B6", 734);
+        LatLng e6 = new LatLng(34.244408, -118.528443);
+        addParkingLotMarker(e6, "E6", 448);
+
+
+
 
         // Move camera to fit CSUN bounds with padding
         int padding = 27; // Adjust padding as needed
