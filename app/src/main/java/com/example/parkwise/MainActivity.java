@@ -27,22 +27,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_geofence);
 
         // Initialize UI elements
 
-        username = findViewById(R.id.username);
-        password = findViewById(R.id.password);
-
-
-        Button signUp = findViewById(R.id.LoginUpButton);
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //login();
-                openMenu();
-            }
-        });
+//        username = findViewById(R.id.username);
+//        password = findViewById(R.id.password);
+//
+//
+//        Button signUp = findViewById(R.id.LoginUpButton);
+//        signUp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //login();
+//                openMenu();
+//            }
+//        });
 
 
     }
