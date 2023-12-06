@@ -1,16 +1,18 @@
 package com.example.parkwise;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Sign_up extends AppCompatActivity {
 
@@ -40,9 +42,16 @@ public class Sign_up extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signup();
+                OpenLogin();
             }
         });
     }
+
+    private void OpenLogin(){
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
+
 
     private void signup() {
         String firstNameText = firstName.getText().toString();

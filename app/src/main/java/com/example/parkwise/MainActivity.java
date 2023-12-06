@@ -6,6 +6,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,12 +34,21 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
 
 
-        Button signUp = findViewById(R.id.LoginUpButton);
-        signUp.setOnClickListener(new View.OnClickListener() {
+        Button loginButton = findViewById(R.id.LoginUpButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //login();
+                login();
                 openMenu();
+            }
+        });
+
+        ImageButton goToSignUpButton = findViewById(R.id.GoToSignUpButton);
+
+        goToSignUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSignUp();
             }
         });
 
@@ -46,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
     }
     private void openMenu(){
         Intent intent = new Intent(this, Menu.class);
+        startActivity(intent);
+    }
+
+    private void openSignUp(){
+        Intent intent = new Intent(this, Sign_up.class);
         startActivity(intent);
     }
 
