@@ -1,6 +1,8 @@
 package com.example.parkwise;
 
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -29,6 +32,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
     private SupportMapFragment mapFragment;
     private static final String map_type_key = "67682c525b346928";
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -93,6 +97,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            requireContext(), R.raw.parkwiseday));
+
+            if (!success) {
+                Log.e("HomeFragment", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("HomeFragment", "Can't find style. Error: ", e);
+        }
 
         LatLng southwest = new LatLng(34.235407, -118.533842); // Replace with actual southwest coordinates
         LatLng northeast = new LatLng(34.257348, -118.523345); // Replace with actual northeast coordinates

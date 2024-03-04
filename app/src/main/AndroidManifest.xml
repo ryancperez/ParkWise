@@ -50,7 +50,7 @@
             android:exported="false"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBSJb7BGD6LvGJahFnGb2_SNUS2shxVE2c" />
+            android:value="AIzaSyCb7gJqSlDBssSvrUSJPIl9rDQz7fuQf84" />
     </application>
 
 </manifest>
