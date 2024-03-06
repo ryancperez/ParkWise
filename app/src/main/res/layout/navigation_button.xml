@@ -5,10 +5,16 @@
 
 
     <Button
-        android:id="@+id"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:id="@+id/navigateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="247dp"
+        android:layout_marginTop="410dp"
+        android:src="@drawable/rounded_corners_blue"
         android:text="Navigate"
-        android:src="@drawable/rounded_corners_blue"></Button>
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-thin"
+        android:textStyle="bold"
+        android:textSize="22dp"></Button>
 
 </LinearLayout>

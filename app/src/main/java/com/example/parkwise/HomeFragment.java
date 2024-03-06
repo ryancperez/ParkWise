@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -158,15 +159,43 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         map.setOnMarkerClickListener(marker -> {
             // Show the info window when the marker is clicked
             marker.showInfoWindow();
-            // Get the position of the marker
+
+            // Remove button view from ParentView if already added (reset button basically)
+            ViewGroup parentView = (ViewGroup) mapFragment.getView();
+            View buttonView = infoWindowAdapter.getButtonView();
+            if (parentView != null && parentView.indexOfChild(buttonView) != -1) {
+                parentView.removeView(buttonView);
+            }
+            
             // Specify a fixed latitude offset (adjust this value as needed)
             double latOffsetDegrees = 0.007;
             LatLng markerPosition = marker.getPosition();
             LatLng newTargetPosition = new LatLng(markerPosition.latitude + latOffsetDegrees, markerPosition.longitude);
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(newTargetPosition, 15f));
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(newTargetPosition, 15f), new GoogleMap.CancelableCallback() {
+                @Override
+                public void onFinish() {
+                    // Camera movement finished, add the navigation button view
+                    View buttonView = infoWindowAdapter.getButtonView();
+                    ViewGroup parentView = (ViewGroup) mapFragment.getView(); // Assuming you are using a SupportMapFragment
+                    if (parentView != null) {
+                        parentView.addView(buttonView);
+                    }
 
-            // Return false to indicate that we didn't consume the event yet
-            // This will allow the default behavior to occur (showing the info window)
+                    buttonView.findViewById(R.id.navigateButton).setOnClickListener(v -> {
+                        // Launch Google Maps app with directions to the marker's location
+                        String uri = "http://maps.google.com/maps?daddr=" + marker.getPosition().latitude + "," + marker.getPosition().longitude;
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        intent.setPackage("com.google.android.apps.maps");
+                        startActivity(intent);
+                    });
+                }
+
+                @Override
+                public void onCancel() {
+                    // Camera movement canceled, do nothing or handle the scenario accordingly
+                }
+            });
+
             return true;
         });
 
@@ -177,6 +206,16 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             intent.setPackage("com.google.android.apps.maps");
             startActivity(intent);
         });
+
+        map.setOnMapClickListener(latLng -> {
+            // Remove the button view from its parent ViewGroup when clicking off a marker
+            ViewGroup parentView = (ViewGroup) mapFragment.getView();
+            View buttonView = infoWindowAdapter.getButtonView();
+            if (parentView != null && parentView.indexOfChild(buttonView) != -1) {
+                parentView.removeView(buttonView);
+            }
+        });
+
     }
 
 
