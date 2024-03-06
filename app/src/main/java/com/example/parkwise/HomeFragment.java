@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
@@ -97,6 +98,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        // Set custom info window adapter
+        CustomInfoWindowAdapter infoWindowAdapter = new CustomInfoWindowAdapter(requireContext());
+        map.setInfoWindowAdapter(infoWindowAdapter);
 
         try {
             // Customise the styling of the base map using a JSON object defined
@@ -153,6 +157,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             // Show the info window when the marker is clicked
             marker.showInfoWindow();
 
+
             // Return false to indicate that we didn't consume the event yet
             // This will allow the default behavior to occur (showing the info window)
             return false;
@@ -187,8 +192,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             Toast.makeText(requireContext(), "Lot " + lotName + " - Available Stalls: " + availableStalls, Toast.LENGTH_LONG).show();
         }
     }
-
 }
+
 
 // Class to hold parking lot details
 class ParkingLotDetails {
