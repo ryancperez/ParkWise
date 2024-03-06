@@ -44,4 +44,14 @@ public class Menu extends AppCompatActivity {
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }
+
+    public void switchToPayment(Payment paymentFragment) {
+        // Switch to the desired fragment based on your logic
+        // For example:
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, paymentFragment)
+                .commit();
+        binding.bottomNavigationView.setSelectedItemId(R.id.payment);
+    }
+
 }

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -166,7 +167,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             if (parentView != null && parentView.indexOfChild(buttonView) != -1) {
                 parentView.removeView(buttonView);
             }
-            
+
             // Specify a fixed latitude offset (adjust this value as needed)
             double latOffsetDegrees = 0.007;
             LatLng markerPosition = marker.getPosition();
@@ -200,11 +201,26 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         });
 
         map.setOnInfoWindowClickListener(marker -> {
-            // Launch Google Maps app with directions to the marker's location
-            String uri = "http://maps.google.com/maps?daddr=" + marker.getPosition().latitude + "," + marker.getPosition().longitude;
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-            intent.setPackage("com.google.android.apps.maps");
-            startActivity(intent);
+            ParkingLotDetails details = (ParkingLotDetails)marker.getTag();
+            String lotName = null;
+                if (details != null) {
+                    // Display details in a custom info window or dialog
+                    // For example, use a custom layout or AlertDialog to show lot number and available stalls
+                    lotName = details.getLotName();
+                }
+                else {
+                    lotName = "ParkWise";
+                }
+            Bundle bundle = new Bundle();
+            bundle.putString("lotName", lotName);
+
+            Payment paymentFragment = new Payment();
+            paymentFragment.setArguments(bundle);
+
+            // Send a signal to the activity indicating which fragment to switch to
+            if (getActivity() instanceof Menu) {
+                ((Menu) getActivity()).switchToPayment(paymentFragment);
+            }
         });
 
         map.setOnMapClickListener(latLng -> {
