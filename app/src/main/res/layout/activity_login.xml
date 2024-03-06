@@ -83,8 +83,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/person_24"
                 android:inputType="textEmailAddress"
-                android:alpha="0.7"
-                />
+                android:alpha="0.7" />
 
 
             <View

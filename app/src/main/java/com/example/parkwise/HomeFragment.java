@@ -2,26 +2,37 @@ package com.example.parkwise;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
-    private ImageButton mainButton;
-    private ImageButton homeButton;
-    private ImageButton accButton;
-
-    private ImageButton setButton;
-    private boolean lock;
+    private GoogleMap map;
+    private SupportMapFragment mapFragment;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -68,11 +79,119 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        // Obtain the SupportMapFragment asynchronously
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapContainer);
+        if (mapFragment == null) {
+            mapFragment = SupportMapFragment.newInstance();
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.mapContainer, mapFragment)
+                    .commit();
+        }
+        mapFragment.getMapAsync(this); // This triggers onMapReady when the map is ready
 
         return view;
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        LatLng southwest = new LatLng(34.235407, -118.533842); // Replace with actual southwest coordinates
+        LatLng northeast = new LatLng(34.257348, -118.523345); // Replace with actual northeast coordinates
+
+        LatLngBounds csunBounds = new LatLngBounds(southwest, northeast);
+
+        BitmapDescriptor lot = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED); //icon for a open-space parking lot
+        BitmapDescriptor struct = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW); //icon for a parking structure
+        BitmapDescriptor both = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE); // icon for both open and structure
+
+        // Adding parking lot markers
+        LatLng b1 = new LatLng(34.236075, -118.533553);
+        addParkingLotMarker(b1, "B1", 480, lot); // Add more similarly, DOUBLE CHECK CAPACITIES FOR ALL
+        LatLng b3 = new LatLng(34.238009,-118.532780);
+        addParkingLotMarker(b3, "B3", 2063, both);
+        LatLng b5 = new LatLng(34.241317, -118.533330);
+        addParkingLotMarker(b5, "B5", 1361, both);
+        LatLng b6 = new LatLng(34.242900, -118.532145);
+        addParkingLotMarker(b6, "B6", 734, lot);
+        LatLng e6 = new LatLng(34.244430, -118.528835);
+        addParkingLotMarker(e6, "E6", 448, lot);
+        LatLng f10 = new LatLng(34.251720, -118.527135);
+        addParkingLotMarker(f10, "F10", 890, lot);
+        LatLng g3 = new LatLng(34.237761, -118.524382);
+        addParkingLotMarker(g3, "G3", 979, lot);
+        LatLng g3S= new LatLng(34.238594, -118.524844);
+        addParkingLotMarker(g3S, "G3 Structure", 1000, struct); // G3 STRUCTURE CAPACITY UNKNOWN
+        LatLng g4 = new LatLng(34.240732, -118.523969);
+        addParkingLotMarker(g4, "G4", 1132, lot);
+        LatLng f5 = new LatLng(34.241410, -118.524731);
+        addParkingLotMarker(f5, "F5", 1000, lot); // F5 CAPACITY UNKNOWN
+        LatLng g6 = new LatLng(34.243144, -118.523444);
+        addParkingLotMarker(g6,"G6", 1000, struct); //G6 CAPACITY UNKNOWN
+
+        // Move camera to fit CSUN bounds with padding
+        int padding = 27; // Adjust padding as needed
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(csunBounds, padding));
+
+        map.setOnMarkerClickListener(marker -> {
+            // Show the info window when the marker is clicked
+            marker.showInfoWindow();
+
+            // Return false to indicate that we didn't consume the event yet
+            // This will allow the default behavior to occur (showing the info window)
+            return false;
+        });
+
+        map.setOnInfoWindowClickListener(marker -> {
+            // When the info window is tapped, zoom in on the marker's position
+            LatLng markerLoc = marker.getPosition();
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(markerLoc, 17.5f));
+
+            // Perform other actions or show information related to the clicked marker
+            showLotInfo(marker);
+        });
+    }
+
+
+    // method for adding parking lot markers
+    private void addParkingLotMarker(LatLng position, String lotName, int availableStalls, BitmapDescriptor icon) {
+        MarkerOptions markerOptions = new MarkerOptions().position(position).title("Lot " + lotName).icon(icon);
+        map.addMarker(markerOptions).setTag(new ParkingLotDetails(lotName, availableStalls));
+    }
+
+    private void showLotInfo(Marker marker) {
+        ParkingLotDetails details = (ParkingLotDetails) marker.getTag();
+        if (details != null) {
+            // Display details in a custom info window or dialog
+            // For example, use a custom layout or AlertDialog to show lot number and available stalls
+            String lotName = details.getLotName();
+            int availableStalls = details.getAvailableStalls();
+
+            // Example: Use a Toast to display details
+            Toast.makeText(requireContext(), "Lot " + lotName + " - Available Stalls: " + availableStalls, Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
+
+// Class to hold parking lot details
+class ParkingLotDetails {
+    private String lotName;
+    private int availableStalls;
+
+    ParkingLotDetails(String lotName, int availableStalls) {
+        this.lotName = lotName;
+        this.availableStalls = availableStalls;
+    }
+
+    String getLotName() {
+        return lotName;
+    }
+
+    int getAvailableStalls() {
+        return availableStalls;
+    }
+}
+
