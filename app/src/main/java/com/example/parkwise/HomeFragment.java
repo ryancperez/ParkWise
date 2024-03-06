@@ -189,7 +189,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             int availableStalls = details.getAvailableStalls();
 
             // Example: Use a Toast to display details
-            Toast.makeText(requireContext(), "Lot " + lotName + " - Available Stalls: " + availableStalls, Toast.LENGTH_LONG).show();
+            //Toast.makeText(requireContext(), "Lot " + lotName + " - Available Stalls: " + availableStalls, Toast.LENGTH_LONG).show();
         }
     }
 }
