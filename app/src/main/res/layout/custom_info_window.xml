@@ -2,24 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="375dp"
     android:layout_height="313dp"
-    android:background="@drawable/rounded_corners"
+    android:background="@drawable/rounded_corners_white"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="340dp"
-        android:layout_height="288dp"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-
-    <TextView
-        android:id="@+id/snippetTextView"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
+
+    <ImageView
+        android:layout_width="340dp"
+        android:layout_height="261dp"
+        android:background="@drawable/rounded_corners_white"
+        android:src="@drawable/parkwise_bg"></ImageView>
+
 
 </LinearLayout>

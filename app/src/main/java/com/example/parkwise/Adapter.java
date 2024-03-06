@@ -32,9 +32,7 @@ public class Adapter implements GoogleMap.InfoWindowAdapter {
 
     private void render(Marker marker, View view) {
         TextView titleTextView = view.findViewById(R.id.titleTextView);
-        TextView snippetTextView = view.findViewById(R.id.snippetTextView);
-
         titleTextView.setText(marker.getTitle());
-        snippetTextView.setText(marker.getSnippet());
+
     }
 }
