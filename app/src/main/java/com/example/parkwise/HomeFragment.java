@@ -1,6 +1,8 @@
 package com.example.parkwise;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -169,7 +171,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         });
 
         map.setOnInfoWindowClickListener(marker -> {
-            showLotInfo(marker);
+            // Launch Google Maps app with directions to the marker's location
+            String uri = "http://maps.google.com/maps?daddr=" + marker.getPosition().latitude + "," + marker.getPosition().longitude;
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            intent.setPackage("com.google.android.apps.maps");
+            startActivity(intent);
         });
     }
 
