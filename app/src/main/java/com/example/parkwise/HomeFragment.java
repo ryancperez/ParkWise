@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         // Set custom info window adapter
-        CustomInfoWindowAdapter infoWindowAdapter = new CustomInfoWindowAdapter(requireContext());
+        Adapter infoWindowAdapter = new Adapter(requireContext());
         map.setInfoWindowAdapter(infoWindowAdapter);
 
         try {
@@ -156,19 +156,19 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         map.setOnMarkerClickListener(marker -> {
             // Show the info window when the marker is clicked
             marker.showInfoWindow();
-
+            // Get the position of the marker
+            // Specify a fixed latitude offset (adjust this value as needed)
+            double latOffsetDegrees = 0.007;
+            LatLng markerPosition = marker.getPosition();
+            LatLng newTargetPosition = new LatLng(markerPosition.latitude + latOffsetDegrees, markerPosition.longitude);
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(newTargetPosition, 15f));
 
             // Return false to indicate that we didn't consume the event yet
             // This will allow the default behavior to occur (showing the info window)
-            return false;
+            return true;
         });
 
         map.setOnInfoWindowClickListener(marker -> {
-            // When the info window is tapped, zoom in on the marker's position
-            LatLng markerLoc = marker.getPosition();
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(markerLoc, 17.5f));
-
-            // Perform other actions or show information related to the clicked marker
             showLotInfo(marker);
         });
     }
@@ -176,7 +176,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     // method for adding parking lot markers
     private void addParkingLotMarker(LatLng position, String lotName, int availableStalls, BitmapDescriptor icon) {
-        MarkerOptions markerOptions = new MarkerOptions().position(position).title("Lot " + lotName).icon(icon);
+        MarkerOptions markerOptions = new MarkerOptions().position(position).title("Lot " + lotName + " - Available Stalls: " + availableStalls).icon(icon);
         map.addMarker(markerOptions).setTag(new ParkingLotDetails(lotName, availableStalls));
     }
 
