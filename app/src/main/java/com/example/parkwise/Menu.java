@@ -28,7 +28,7 @@ public class Menu extends AppCompatActivity {
             } else if (itemId == R.id.payment){
                 replaceFragment(new Payment());
             } else if (itemId == R.id.VIP) {
-                replaceFragment(new VIPFragment());
+                replaceFragment(new vipPayment());
             }
 
 
@@ -53,5 +53,15 @@ public class Menu extends AppCompatActivity {
                 .commit();
         binding.bottomNavigationView.setSelectedItemId(R.id.payment);
     }
+
+    public void switchToVIP(VIPFragment fragment) {
+        // Switch to the desired fragment based on your logic
+        // For example:
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+        binding.bottomNavigationView.setSelectedItemId(R.id.VIP);
+    }
+
 
 }

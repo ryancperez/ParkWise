@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Payment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".vipPayment"
     android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,7 +91,7 @@
                     android:layout_height="75dp"
                     android:clickable="false"
                     android:paddingTop="25dp"
-                    android:text="$10.00"
+                    android:text="$20.00"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -101,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="81dp"
                     android:paddingTop="34dp"
-                    android:text="$12.00"
+                    android:text="$22.00"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="85dp"
                     android:paddingTop="34dp"
-                    android:text="$15.00"
+                    android:text="$25.00"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -121,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="85dp"
                     android:paddingTop="34dp"
-                    android:text="$25.00"
+                    android:text="$35.00"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -145,25 +145,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             app:layout_constraintVertical_bias="0.0" />
-
-        <Button
-            android:id="@+id/vipButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="39dp"
-            android:text="VIP ->"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.058"
-            app:layout_constraintStart_toEndOf="@+id/CPbutton"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            app:layout_constraintVertical_bias="0.024" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/paymentText"
+        android:text="ParkWise VIP"
         android:layout_width="match_parent"
         android:layout_height="102dp"
         android:background="@color/my_primary"
@@ -172,4 +158,5 @@
         android:textAlignment="center"
         android:textColor="@color/material_dynamic_neutral80"
         android:textSize="50dp" />
+
 </FrameLayout>
