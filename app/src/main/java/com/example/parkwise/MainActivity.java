@@ -38,12 +38,13 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                //login();
                 openMenu();
             }
         });
 
         ImageButton goToSignUpButton = findViewById(R.id.GoToSignUpButton);
+        ImageButton goToAdminLogin = findViewById(R.id.adminLogin);
 
         goToSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        goToAdminLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAdminLogin();
+            }
+        });
 
     }
     private void openMenu(){
@@ -61,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void openSignUp(){
         Intent intent = new Intent(this, Sign_up.class);
+        startActivity(intent);
+    }
+
+    private void openAdminLogin(){
+        Intent intent = new Intent(this, AdminLogin.class);
         startActivity(intent);
     }
 

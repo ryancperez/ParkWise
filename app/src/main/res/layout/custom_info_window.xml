@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="375dp"
+    android:layout_height="343dp"
+    android:background="@drawable/rounded_corners_white"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:layout_width="340dp"
+        android:layout_height="282dp"
+        android:background="@drawable/rounded_corners_white"
+        android:src="@drawable/parkwise_bg"></ImageView>
+
+
+</LinearLayout>

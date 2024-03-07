@@ -78,12 +78,12 @@ public class VIPFragment extends Fragment {
             public void onClick(View view) {
                 if (!lock) {
                     lock = true;
-                    pillarActivation.run(4);
+                    pillarActivation.run(2);
 
                     mainButton.setImageDrawable(getResources().getDrawable(R.drawable.parkwiseunlocked));
 
                 } else {
-                    pillarActivation.run(5);
+                    pillarActivation.run(3);
                     lock = false;
                     mainButton.setImageDrawable(getResources().getDrawable(R.drawable.parkwiselocked));
                 }

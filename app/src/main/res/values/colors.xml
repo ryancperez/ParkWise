@@ -10,9 +10,13 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="adminRed">#B10000</color>
 
     <color name="primary">#1B023B</color>
     <color name="secondary">#FF03DAC5</color>
+    <color name="background">#000027</color>
+    <color name="transparent">#80000000</color>
+
 
     <color name="night_mode">#6124B1</color>
     <color name="notification">#13B2C3</color>
