@@ -54,7 +54,7 @@ public class Menu extends AppCompatActivity {
         binding.bottomNavigationView.setSelectedItemId(R.id.payment);
     }
 
-    public void switchToVIP(VIPFragment fragment) {
+    public void switchToVIP(vipPayment fragment) {
         // Switch to the desired fragment based on your logic
         // For example:
         getSupportFragmentManager().beginTransaction()
