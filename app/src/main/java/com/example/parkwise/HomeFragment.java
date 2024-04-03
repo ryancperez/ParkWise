@@ -133,27 +133,27 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         // Adding parking lot markers
         LatLng b1 = new LatLng(34.236075, -118.533553);
-        addParkingLotMarker(b1, "B1", 480, lot, R.drawable.B1); // Add more similarly, DOUBLE CHECK CAPACITIES FOR ALL
+        addParkingLotMarker(b1, "B1", 480, lot, R.drawable.b1); // Add more similarly, DOUBLE CHECK CAPACITIES FOR ALL
         LatLng b3 = new LatLng(34.238009,-118.532780);
-        addParkingLotMarker(b3, "B3", 2063, both, R.drawable.B3);
+        addParkingLotMarker(b3, "B3", 2063, both, R.drawable.b3);
         LatLng b5 = new LatLng(34.241317, -118.533330);
-        addParkingLotMarker(b5, "B5", 1361, both, R.drawable.B5);
+        addParkingLotMarker(b5, "B5", 1361, both, R.drawable.b5);
         LatLng b6 = new LatLng(34.242900, -118.532145);
-        addParkingLotMarker(b6, "B6", 734, lot, R.drawable.B6);
+        addParkingLotMarker(b6, "B6", 734, lot, R.drawable.b6);
         LatLng e6 = new LatLng(34.244430, -118.528835);
-        addParkingLotMarker(e6, "E6", 448, lot, R.drawable.E6);
+        addParkingLotMarker(e6, "E6", 448, lot, R.drawable.e6);
         LatLng f10 = new LatLng(34.251720, -118.527135);
-        addParkingLotMarker(f10, "F10", 890, lot, R.drawable.F10);
+        addParkingLotMarker(f10, "F10", 890, lot, R.drawable.f10);
         LatLng g3 = new LatLng(34.237761, -118.524382);
-        addParkingLotMarker(g3, "G3", 979, lot, R.drawable.G3);
+        addParkingLotMarker(g3, "G3", 979, lot, R.drawable.g3);
         LatLng g3S= new LatLng(34.238594, -118.524844);
-        addParkingLotMarker(g3S, "G3 Structure", 1000, struct, R.drawable.G3S); // G3 STRUCTURE CAPACITY UNKNOWN
+        addParkingLotMarker(g3S, "G3 Structure", 1000, struct, R.drawable.g3s); // G3 STRUCTURE CAPACITY UNKNOWN
         LatLng g4 = new LatLng(34.240732, -118.523969);
-        addParkingLotMarker(g4, "G4", 1132, lot, R.drawable.G4);
+        addParkingLotMarker(g4, "G4", 1132, lot, R.drawable.g4);
         LatLng f5 = new LatLng(34.241410, -118.524731);
-        addParkingLotMarker(f5, "F5", 1000, lot, R.drawable.F5); // F5 CAPACITY UNKNOWN
+        addParkingLotMarker(f5, "F5", 1000, lot, R.drawable.f5); // F5 CAPACITY UNKNOWN
         LatLng g6 = new LatLng(34.243144, -118.523444);
-        addParkingLotMarker(g6,"G6", 1000, struct, R.drawable.G6); //G6 CAPACITY UNKNOWN
+        addParkingLotMarker(g6,"G6", 1000, struct, R.drawable.g6); //G6 CAPACITY UNKNOWN
 
         // Move camera to fit CSUN bounds with padding
         int padding = 27; // Adjust padding as needed
