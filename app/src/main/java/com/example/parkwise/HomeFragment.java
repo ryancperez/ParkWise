@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,6 +35,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private SupportMapFragment mapFragment;
     private GeofencingClient geofencingClient;
     private float GEOFENCE_RADIUS = 400;
+
+    private Adapter infoWindowAdapter;
     private static final String map_type_key = "67682c525b346928";
 
 
@@ -103,7 +104,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         // Set custom info window adapter
-        Adapter infoWindowAdapter = new Adapter(requireContext());
+        infoWindowAdapter = new Adapter(requireContext());
         map.setInfoWindowAdapter(infoWindowAdapter);
 
         try {
@@ -131,27 +132,27 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         // Adding parking lot markers
         LatLng b1 = new LatLng(34.236075, -118.533553);
-        addParkingLotMarker(b1, "B1", 480, lot); // Add more similarly, DOUBLE CHECK CAPACITIES FOR ALL
+        addParkingLotMarker(b1, "B1", 480, lot, R.drawable.b1); // Add more similarly, DOUBLE CHECK CAPACITIES FOR ALL
         LatLng b3 = new LatLng(34.238009,-118.532780);
-        addParkingLotMarker(b3, "B3", 2063, both);
+        addParkingLotMarker(b3, "B3", 2063, both, R.drawable.b3);
         LatLng b5 = new LatLng(34.241317, -118.533330);
-        addParkingLotMarker(b5, "B5", 1361, both);
+        addParkingLotMarker(b5, "B5", 1361, both, R.drawable.b5);
         LatLng b6 = new LatLng(34.242900, -118.532145);
-        addParkingLotMarker(b6, "B6", 734, lot);
+        addParkingLotMarker(b6, "B6", 734, lot, R.drawable.b6);
         LatLng e6 = new LatLng(34.244430, -118.528835);
-        addParkingLotMarker(e6, "E6", 448, lot);
+        addParkingLotMarker(e6, "E6", 448, lot, R.drawable.e6);
         LatLng f10 = new LatLng(34.251720, -118.527135);
-        addParkingLotMarker(f10, "F10", 890, lot);
+        addParkingLotMarker(f10, "F10", 890, lot, R.drawable.f10);
         LatLng g3 = new LatLng(34.237761, -118.524382);
-        addParkingLotMarker(g3, "G3", 979, lot);
+        addParkingLotMarker(g3, "G3", 979, lot, R.drawable.g3);
         LatLng g3S= new LatLng(34.238594, -118.524844);
-        addParkingLotMarker(g3S, "G3 Structure", 1000, struct); // G3 STRUCTURE CAPACITY UNKNOWN
+        addParkingLotMarker(g3S, "G3 Structure", 1000, struct, R.drawable.g3s); // G3 STRUCTURE CAPACITY UNKNOWN
         LatLng g4 = new LatLng(34.240732, -118.523969);
-        addParkingLotMarker(g4, "G4", 1132, lot);
+        addParkingLotMarker(g4, "G4", 1132, lot, R.drawable.g4);
         LatLng f5 = new LatLng(34.241410, -118.524731);
-        addParkingLotMarker(f5, "F5", 1000, lot); // F5 CAPACITY UNKNOWN
+        addParkingLotMarker(f5, "F5", 1000, lot, R.drawable.f5); // F5 CAPACITY UNKNOWN
         LatLng g6 = new LatLng(34.243144, -118.523444);
-        addParkingLotMarker(g6,"G6", 1000, struct); //G6 CAPACITY UNKNOWN
+        addParkingLotMarker(g6,"G6", 1000, struct, R.drawable.g6); //G6 CAPACITY UNKNOWN
 
         // Move camera to fit CSUN bounds with padding
         int padding = 27; // Adjust padding as needed
@@ -236,9 +237,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
 
     // method for adding parking lot markers
-    private void addParkingLotMarker(LatLng position, String lotName, int availableStalls, BitmapDescriptor icon) {
+    private void addParkingLotMarker(LatLng position, String lotName, int availableStalls, BitmapDescriptor icon, int imageResource) {
         MarkerOptions markerOptions = new MarkerOptions().position(position).title("Lot " + lotName + " - Available Stalls: " + availableStalls).icon(icon);
-        map.addMarker(markerOptions).setTag(new ParkingLotDetails(lotName, availableStalls));
+        Marker marker = map.addMarker(markerOptions);
+        marker.setTag(new ParkingLotDetails(lotName, availableStalls));
+        infoWindowAdapter.addMarkerImage(marker, imageResource);
     }
 
     private void showLotInfo(Marker marker) {

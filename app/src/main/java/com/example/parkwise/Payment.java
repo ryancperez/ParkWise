@@ -125,12 +125,11 @@ public class Payment extends Fragment {
         vipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new vipPayment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                vipPayment fragment = new vipPayment();
+
+                if (getActivity() instanceof Menu) {
+                    ((Menu) getActivity()).switchToVIP(fragment);
+                }
             }
         });
 
