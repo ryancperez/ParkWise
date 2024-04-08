@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap map;
     private SupportMapFragment mapFragment;
-    private GeofencingClient geofencingClient;
+//    private GeofencingClient geofencingClient;
     private float GEOFENCE_RADIUS = 400;
 
     private Adapter infoWindowAdapter;
