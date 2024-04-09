@@ -1,5 +1,6 @@
 package com.example.parkwise;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -9,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.sql.Connection;
@@ -21,6 +24,35 @@ public class MainActivity extends AppCompatActivity {
     //ActivityMainBinding binding;
     private EditText username;
     private EditText password;
+
+    ActivityResultLauncher<String[]> locationPermissionRequest =
+            registerForActivityResult(new ActivityResultContracts
+                            .RequestMultiplePermissions(), result -> {
+                        Boolean fineLocationGranted = result.getOrDefault(
+                                android.Manifest.permission.ACCESS_FINE_LOCATION, false);
+                        Boolean coarseLocationGranted = result.getOrDefault(
+                                android.Manifest.permission.ACCESS_COARSE_LOCATION,false);
+                        Boolean backgroundLocationGranted = result.getOrDefault(
+                                Manifest.permission.ACCESS_BACKGROUND_LOCATION,false);
+                        if (backgroundLocationGranted != null && backgroundLocationGranted){
+
+                        }
+                        else if (fineLocationGranted != null && fineLocationGranted) {
+                            // Precise location access granted.
+                        } else if (coarseLocationGranted != null && coarseLocationGranted) {
+                            // Only approximate location access granted.
+                        } else {
+                            // No location access granted.
+                        }
+                    }
+            );
+
+// ...
+
+// Before you perform the actual permission request, check whether your app
+// already has the permissions, and whether your app needs to show a permission
+// rationale dialog. For more details, see Request permissions.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
 
+        locationPermissionRequest.launch(new String[] {
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        });
 
         Button loginButton = findViewById(R.id.LoginUpButton);
         loginButton.setOnClickListener(new View.OnClickListener() {

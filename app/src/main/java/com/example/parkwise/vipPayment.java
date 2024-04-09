@@ -16,7 +16,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,10 +23,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Payment#newInstance} factory method to
+ * Use the {@link vipPayment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Payment extends Fragment {
+public class vipPayment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,12 +37,9 @@ public class Payment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Payment() {
+    public vipPayment() {
         // Required empty public constructor
     }
-
-
-
 
     /**
      * Use this factory method to create a new instance of
@@ -51,11 +47,11 @@ public class Payment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Payment.
+     * @return A new instance of fragment vipPayment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Payment newInstance(String param1, String param2) {
-        Payment fragment = new Payment();
+    public static vipPayment newInstance(String param1, String param2) {
+        vipPayment fragment = new vipPayment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,19 +66,15 @@ public class Payment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_payment, container, false);
+        View view = inflater.inflate(R.layout.fragment_vip_payment, container, false);
         TextView textView = view.findViewById(R.id.paymentText);
         ChipGroup chipGroup = view.findViewById(R.id.chip_Group);
         Button confirmButton = view.findViewById(R.id.CPbutton);
-        Button vipButton = view.findViewById(R.id.vipButton);
         Chip chip10=view.findViewById(R.id.chip10);
         Chip chip9=view.findViewById(R.id.chip9);
         Chip chip8=view.findViewById(R.id.chip8);
@@ -109,30 +101,33 @@ public class Payment extends Fragment {
 
                 }
 
+                Fragment fragment = new VIPFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+//                VIPFragment frag = new VIPFragment();
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.fragment_container, fragment);
+//                fragmentTransaction.commit();
+
+
             }
         });
         chipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
-                    if(checkedIds.size() > 0) {
-                        confirmButton.setEnabled(true);
+                if(checkedIds.size() > 0) {
+                    confirmButton.setEnabled(true);
 
-                    }
-                    else
-                        confirmButton.setEnabled(false);
-
-        }});
-
-        vipButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vipPayment fragment = new vipPayment();
-
-                if (getActivity() instanceof Menu) {
-                    ((Menu) getActivity()).switchToVIP(fragment);
                 }
-            }
-        });
+                else
+                    confirmButton.setEnabled(false);
+
+            }});
 
         // Retrieve lotName from HomeFragment Info Window Click bundle argument
         Bundle args = getArguments();
@@ -148,7 +143,7 @@ public class Payment extends Fragment {
         } else {
             // Handle the situation where args is null
             // For now, you can set a default value or display a message
-            textView.setText("ParkWise");
+            textView.setText("ParkWise VIP");
         }
         // Inflate the layout for this fragment
         return view;
@@ -290,6 +285,4 @@ public class Payment extends Fragment {
             }
         });
     }
-
-
 }
