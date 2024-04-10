@@ -1,6 +1,7 @@
 package com.example.parkwise;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -106,7 +108,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         // Set custom info window adapter
         infoWindowAdapter = new Adapter(requireContext());
         map.setInfoWindowAdapter(infoWindowAdapter);
-
+        enableUserLocation();
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
@@ -235,6 +237,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    private void enableUserLocation(){
+        if(PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)){
+            map.setMyLocationEnabled(true);
+        }
+        else{
+
+        }
+    }
 
     // method for adding parking lot markers
     private void addParkingLotMarker(LatLng position, String lotName, int availableStalls, BitmapDescriptor icon, int imageResource) {

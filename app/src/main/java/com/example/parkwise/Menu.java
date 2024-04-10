@@ -16,7 +16,6 @@ import com.example.parkwise.databinding.ActivityMainBinding;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,10 +54,10 @@ public class Menu extends AppCompatActivity {
             return true;
         });
 
-        geofencingClient = LocationServices.getGeofencingClient(this);
-        geoFenceHelper = new GeoFenceHelper(this);
-
-        addGeofence(CSUN, GEOFENCE_RADIUS);
+//        geofencingClient = LocationServices.getGeofencingClient(this);
+//        geoFenceHelper = new GeoFenceHelper(this);
+//
+//        addGeofence(CSUN, GEOFENCE_RADIUS);
 
     }
 

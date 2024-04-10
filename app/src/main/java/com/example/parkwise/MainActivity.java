@@ -1,9 +1,12 @@
 package com.example.parkwise;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +15,17 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,10 +33,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final String TAG = "MainActivity";
     //ActivityMainBinding binding;
     private EditText username;
     private EditText password;
+    private GeofencingClient geofencingClient;
+    private float GEOFENCE_RADIUS = 400;
+    private String GEOFENCE_ID = "CSUN";
+    LatLng CSUN = new LatLng(34.2408, -118.5301);
+    private GeoFenceHelper geoFenceHelper;
 
     ActivityResultLauncher<String[]> locationPermissionRequest =
             registerForActivityResult(new ActivityResultContracts
@@ -35,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
                         Boolean backgroundLocationGranted = result.getOrDefault(
                                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,false);
                         if (backgroundLocationGranted != null && backgroundLocationGranted){
+                            geofencingClient = LocationServices.getGeofencingClient(this);
+                            geoFenceHelper = new GeoFenceHelper(this);
 
+                            addGeofence(CSUN, GEOFENCE_RADIUS);
                         }
                         else if (fineLocationGranted != null && fineLocationGranted) {
                             // Precise location access granted.
@@ -175,6 +196,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    private void addGeofence(LatLng latLng, float radius) {
+
+        Geofence geofence = geoFenceHelper.getGeofence(GEOFENCE_ID, latLng, radius, Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_DWELL | Geofence.GEOFENCE_TRANSITION_EXIT);
+        GeofencingRequest geofencingRequest = geoFenceHelper.getGeofencingRequest(geofence);
+        PendingIntent pendingIntent = geoFenceHelper.getPendingIntent();
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        geofencingClient.addGeofences(geofencingRequest, pendingIntent)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: Geofence Added...");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        String errorMessage = geoFenceHelper.geoErrorString(e);
+                        Log.d(TAG, "onFailure: " + errorMessage);
+                    }
+                });
     }
 
     private void showToast(String message) {
