@@ -47,7 +47,11 @@ public class Menu extends AppCompatActivity {
             } else if (itemId == R.id.payment) {
                 replaceFragment(new Payment());
             } else if (itemId == R.id.VIP) {
-                replaceFragment(new vipPayment());
+                // straight to payment
+                //replaceFragment(new vipPayment());
+
+                // implement AvailabilityFragment
+                replaceFragment(new VIPFragment());
             }
 
 

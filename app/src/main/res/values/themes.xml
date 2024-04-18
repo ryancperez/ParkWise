@@ -40,7 +40,7 @@
     </style>
 
 
-    <style name ="infoSwitch" parent="Theme.AppCompat.Light">
+    <style name ="infoSwitch" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorControlActivated">@color/private_account</item>
         <item name="colorSwitchThumbNormal">#FFFFFF</item>
         <item name="android:colorForeground">#99FFFFFF</item>
