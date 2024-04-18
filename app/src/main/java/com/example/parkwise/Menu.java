@@ -37,6 +37,11 @@ public class Menu extends AppCompatActivity {
         setContentView(binding.getRoot());
         replaceFragment(new HomeFragment());
 
+        if (getIntent().hasExtra("fragment_to_open")) {
+//            String fragmentClassName = getIntent().getStringExtra("fragment_to_open");
+            replaceFragment(new Payment());
+        }
+
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
             int itemId = item.getItemId();

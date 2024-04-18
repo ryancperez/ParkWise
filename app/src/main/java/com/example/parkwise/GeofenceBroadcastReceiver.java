@@ -15,12 +15,15 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
         Toast.makeText(context,"Geofence triggered...", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onReceive: Geofence triggered....");
 
-//        NotificationHelper notificationHelper = new NotificationHelper(context);
-
+        NotificationHelper notificationHelper = new NotificationHelper(context);
+        notificationHelper.sendHighPriorityNotificationToOpenFragment("ParkWise Parking", "You have entered CSUN! Click here to pay for parking!", Payment.class);
+//
 //        GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
 //
 //        if (geofencingEvent.hasError()) {
-//            Log.d(TAG, "onReceive: Error receiving geofence event...");
+//            String errorMessage = GeofenceStatusCodes
+//                    .getStatusCodeString(geofencingEvent.getErrorCode());
+//            Log.d(TAG, errorMessage);
 //            return;
 //        }
 //

@@ -44,15 +44,47 @@ public class NotificationHelper extends ContextWrapper {
         manager.createNotificationChannel(notificationChannel);
     }
 
+    public void sendHighPriorityNotificationToOpenFragment(String title, String body, Class activityName) {
+
+        Intent intent = new Intent(this, Menu.class);
+        intent.putExtra("fragment_to_open", activityName.getName());
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 267, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setSmallIcon(R.drawable.parkwise_logo)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setStyle(new NotificationCompat.BigTextStyle().setSummaryText("summary").setBigContentTitle(title).bigText(body))
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .build();
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        NotificationManagerCompat.from(this).notify(new Random().nextInt(), notification);
+
+
+    }
+
     public void sendHighPriorityNotification(String title, String body, Class activityName) {
 
         Intent intent = new Intent(this, activityName);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 267, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        intent.putExtra("fragment_to_open", activityName.getName());
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 267, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                .setContentTitle(title)
-//                .setContentText(body)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setSmallIcon(R.drawable.parkwise_logo)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setStyle(new NotificationCompat.BigTextStyle().setSummaryText("summary").setBigContentTitle(title).bigText(body))
                 .setContentIntent(pendingIntent)
