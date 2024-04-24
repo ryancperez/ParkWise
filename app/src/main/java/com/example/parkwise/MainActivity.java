@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private String GEOFENCE_ID = "CSUN";
     LatLng CSUN = new LatLng(34.2408, -118.5301);
     private GeoFenceHelper geoFenceHelper;
+    private boolean loginAccepted = false;
 
     ActivityResultLauncher<String[]> locationPermissionRequest =
             registerForActivityResult(new ActivityResultContracts
@@ -96,8 +97,9 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //login();
+                login();
                 openMenu();
+
             }
         });
 
@@ -133,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AdminLogin.class);
         startActivity(intent);
     }
+
 
     private void login() {
 
@@ -170,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     showToast("You have logged in");
+                                    loginAccepted = true;
                                 }
                             });
                         } else {
