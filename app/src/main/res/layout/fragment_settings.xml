@@ -5,42 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/my_secondary"
+    android:background="@color/white"
     tools:context=".SettingsFragment">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="102dp"
-            android:background="@color/my_primary"
-            android:fontFamily="monospace"
-            android:paddingTop="12dp"
-            android:text="ParkWise"
-            android:textAlignment="center"
-            android:textColor="@color/material_dynamic_neutral80"
-            android:textSize="50dp" />
+            android:layout_height="148dp">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="100dp"
-            android:src="@drawable/back_btn"
-            android:padding="14dp"/>
+        <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="102dp"
+                android:background="@color/my_primary"
+                android:fontFamily="sans-serif-black"
+                android:paddingTop="12dp"
+                android:text="ParkWise"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="50dp"/>
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:paddingTop="110dp"
-            android:text="Settings"
-            android:textColor="#FFFFFF"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="100dp"
+                android:text="Settings"
+                android:textColor="@color/my_primary"
+                android:textSize="19sp"
+                android:textStyle="bold" android:layout_centerInParent="true"/>
 
     </RelativeLayout>
 
@@ -54,20 +46,18 @@
         android:orientation="vertical"/>
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/avatar"
-        />
-
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:layout_gravity="center"
+            android:src="@drawable/avatar"
+    />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:text="Name"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/my_primary"
         android:textSize="20sp"
         android:textStyle="bold"
         />
@@ -76,21 +66,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="213 555 5555"
-        android:textColor="#CCFFFFFF"
-        android:textSize="12sp"
+        android:textColor="@color/my_primary"
+        android:layout_marginTop="5dp"
+        android:textSize="14sp"
         android:layout_gravity="center"
         />
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:paddingStart="30dp"
         android:layout_gravity="center"
-        android:background="@drawable/round_back_secondary_100"
+        android:background="@drawable/rounded_corners_blue"
+        android:layout_marginTop="10dp"
         android:text="Edit Profile"
         android:textAllCaps="false"
-        android:textColor="@color/my_secondary"
+        android:textColor="@color/white"
         android:paddingEnd="30dp"
         />
 
@@ -98,9 +89,9 @@
         android:background="@drawable/round_back_white10_20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:padding="15dp">
 

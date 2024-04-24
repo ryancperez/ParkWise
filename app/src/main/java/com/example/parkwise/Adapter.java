@@ -46,12 +46,15 @@ public class Adapter implements GoogleMap.InfoWindowAdapter {
 
     private void render(Marker marker, View view) {
         TextView titleTextView = view.findViewById(R.id.titleTextView);
+        TextView detailTextView = view.findViewById(R.id.detailTextView);
         ImageView imageView = view.findViewById(R.id.infoWindowDefault);
 
         ParkingLotDetails details = (ParkingLotDetails) marker.getTag();
         if (details != null) {
             // set title
-            titleTextView.setText("Lot " + details.getLotName() + " - Available Stalls: " + details.getAvailableStalls());
+            titleTextView.setText("Lot " + details.getLotName());
+            //set stall subtitle
+            detailTextView.setText("Available Stalls: " + details.getAvailableStalls());
 
             // Set image dynamically based on marker
             Integer imageResource = mMarkerImageMap.get(marker);
