@@ -35,9 +35,7 @@ public class ParkingMap extends Fragment {
     private String mParam1;
     private String mParam2;
     private ImageButton spot_one;
-    private boolean oneEnabled = false;
     private ImageButton spot_two;
-    private boolean twoEnabled = false;
     private String device1ID = "1";
     private String device2ID = "2";
 
@@ -83,32 +81,6 @@ public class ParkingMap extends Fragment {
         spot_two = view.findViewById(R.id.spot_two);
         setAvailability();
 
-        spot_one.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    Fragment fragment = new vipPayment();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-            }
-        });
-
-        spot_two.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    Fragment fragment = new vipPayment();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                    spot_two.setImageDrawable(ResourcesCompat.getDrawable(getResources(),R.drawable.parkwiselocked, null ));
-            }
-        });
-
-
         // Inflate the layout for this fragment
         return view;
     }
@@ -151,11 +123,32 @@ public class ParkingMap extends Fragment {
     private void setButtonImage(boolean available, String id){
         if (available && id == device1ID){
             spot_one.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.parkwiseunlocked, null));
-
-
+            spot_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Fragment fragment = new vipPayment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            });
         }
         if (available && id == device2ID){
             spot_two.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.parkwiseunlocked, null));
+            spot_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Fragment fragment = new vipPayment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    spot_two.setImageDrawable(ResourcesCompat.getDrawable(getResources(),R.drawable.parkwiselocked, null ));
+                }
+            });
         }
 
     }

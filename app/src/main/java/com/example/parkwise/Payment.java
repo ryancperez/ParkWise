@@ -10,12 +10,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -93,19 +90,21 @@ public class Payment extends Fragment {
             public void onClick(View v) {
                 if(chip10.isChecked())
                 {
-                    performPayment();
+                    //30min
+                    performPayment("30");
 
                 } else if (chip9.isChecked()) {
-
-                    performPaymentTwo();
+                    //60min
+                    performPayment("60");
 
                 } else if (chip8.isChecked()) {
-
-                    performPaymentThree();
+                    //120min
+                    performPayment("120");
 
 
                 } else if (chip7.isChecked()) {
-                    performPaymentFour();
+                    //1440min
+                    performPayment("1440");
 
                 }
 
@@ -159,7 +158,7 @@ public class Payment extends Fragment {
     }
 
 
-    private void performPayment() {
+    private void performPayment(String time) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -172,63 +171,7 @@ public class Payment extends Fragment {
                         Statement stmt = conn.createStatement();
                         String sql = "INSERT INTO time_table (start_time, end_time) " +
                                 "VALUES (TIME_FORMAT(NOW(), '%H:%i:%s'), " +
-                                "TIME_FORMAT(DATE_ADD(NOW(), INTERVAL 30 MINUTE), '%H:%i:%s'));";
-                        stmt.executeUpdate(sql); // Execute the query
-                        stmt.close(); // Close the statement
-                        conn.close(); // Close the database connection
-                        showToastOnUiThread("Payment successful!");
-                    } else {
-                        showToastOnUiThread("Database connection failed. Please check your network.");
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    showToastOnUiThread("Payment failed. Please try again.");
-                }
-            }
-        }).start();
-    }
-    private void performPaymentTwo() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    showToast("Attempting to connect to database...");
-                    DatabaseConnector dbConnector = new DatabaseConnector();
-                    Connection conn = dbConnector.getConnection();
-                    if (conn != null) {
-                        showToast("Database connection successful!");
-                        Statement stmt = conn.createStatement();
-                        String sql = "INSERT INTO time_table (start_time, end_time) " +
-                                "VALUES (TIME_FORMAT(NOW(), '%H:%i:%s'), " +
-                                "TIME_FORMAT(DATE_ADD(NOW(), INTERVAL 90 MINUTE), '%H:%i:%s'));";
-                        stmt.executeUpdate(sql); // Execute the query
-                        stmt.close(); // Close the statement
-                        conn.close(); // Close the database connection
-                        showToastOnUiThread("Payment successful!");
-                    } else {
-                        showToastOnUiThread("Database connection failed. Please check your network.");
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    showToastOnUiThread("Payment failed. Please try again.");
-                }
-            }
-        }).start();
-    }
-    private void performPaymentThree() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    showToast("Attempting to connect to database...");
-                    DatabaseConnector dbConnector = new DatabaseConnector();
-                    Connection conn = dbConnector.getConnection();
-                    if (conn != null) {
-                        showToast("Database connection successful!");
-                        Statement stmt = conn.createStatement();
-                        String sql = "INSERT INTO time_table (start_time, end_time) " +
-                                "VALUES (TIME_FORMAT(NOW(), '%H:%i:%s'), " +
-                                "TIME_FORMAT(DATE_ADD(NOW(), INTERVAL 2 HOUR), '%H:%i:%s'));";
+                                "TIME_FORMAT(DATE_ADD(NOW(), INTERVAL " + time + " MINUTE), '%H:%i:%s'));";
                         stmt.executeUpdate(sql); // Execute the query
                         stmt.close(); // Close the statement
                         conn.close(); // Close the database connection
@@ -244,35 +187,6 @@ public class Payment extends Fragment {
         }).start();
     }
 
-
-    private void performPaymentFour() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    showToast("Attempting to connect to database...");
-                    DatabaseConnector dbConnector = new DatabaseConnector();
-                    Connection conn = dbConnector.getConnection();
-                    if (conn != null) {
-                        showToast("Database connection successful!");
-                        Statement stmt = conn.createStatement();
-                        String sql = "INSERT INTO time_table (start_time, end_time) " +
-                                "VALUES (TIME_FORMAT(NOW(), '%H:%i:%s'), " +
-                                "TIME_FORMAT(DATE_ADD(NOW(), INTERVAL 24 HOUR), '%H:%i:%s'));";
-                        stmt.executeUpdate(sql); // Execute the query
-                        stmt.close(); // Close the statement
-                        conn.close(); // Close the database connection
-                        showToastOnUiThread("Payment successful!");
-                    } else {
-                        showToastOnUiThread("Database connection failed. Please check your network.");
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    showToastOnUiThread("Payment failed. Please try again.");
-                }
-            }
-        }).start();
-    }
     private void showToast(final String message) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
