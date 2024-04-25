@@ -128,9 +128,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         LatLngBounds csunBounds = new LatLngBounds(southwest, northeast);
 
-        BitmapDescriptor lot = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED); //icon for a open-space parking lot
-        BitmapDescriptor struct = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW); //icon for a parking structure
-        BitmapDescriptor both = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE); // icon for both open and structure
+        BitmapDescriptor lot = BitmapDescriptorFactory.fromResource(R.drawable.csunmarkerred); //icon for a open-space parking lot
+        BitmapDescriptor struct = BitmapDescriptorFactory.fromResource(R.drawable.csunmarkerorange); //icon for a parking structure
+        BitmapDescriptor both = BitmapDescriptorFactory.fromResource(R.drawable.csunmarkerblack); // icon for both open and structure
+        BitmapDescriptor parkwiselot = BitmapDescriptorFactory.fromResource(R.drawable.csunmarkerpw);
 
         // Adding parking lot markers
         LatLng b1 = new LatLng(34.236075, -118.533553);
@@ -144,7 +145,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         LatLng e6 = new LatLng(34.244430, -118.528835);
         addParkingLotMarker(e6, "E6", 448, lot, R.drawable.e6);
         LatLng f10 = new LatLng(34.251720, -118.527135);
-        addParkingLotMarker(f10, "F10", 890, lot, R.drawable.f10);
+        addParkingLotMarker(f10, "F10", 890, parkwiselot, R.drawable.f10);
         LatLng g3 = new LatLng(34.237761, -118.524382);
         addParkingLotMarker(g3, "G3", 979, lot, R.drawable.g3);
         LatLng g3S= new LatLng(34.238594, -118.524844);
@@ -248,7 +249,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     // method for adding parking lot markers
     private void addParkingLotMarker(LatLng position, String lotName, int availableStalls, BitmapDescriptor icon, int imageResource) {
-        MarkerOptions markerOptions = new MarkerOptions().position(position).title("Lot " + lotName + " - Available Stalls: " + availableStalls).icon(icon);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(position)
+                .title("Lot " + lotName + " - Available Stalls: " + availableStalls)
+                .icon(icon);
+
         Marker marker = map.addMarker(markerOptions);
         marker.setTag(new ParkingLotDetails(lotName, availableStalls));
         infoWindowAdapter.addMarkerImage(marker, imageResource);

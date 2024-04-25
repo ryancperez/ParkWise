@@ -121,7 +121,7 @@ public class ParkingMap extends Fragment {
     }
 
     private void setButtonImage(boolean available, String id){
-        if (available && id == device1ID){
+        if (available && id.equals(device1ID)){
             spot_one.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.parkwiseunlocked, null));
             spot_one.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -135,7 +135,7 @@ public class ParkingMap extends Fragment {
                 }
             });
         }
-        if (available && id == device2ID){
+        if (available && id.equals(device1ID)){
             spot_two.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.parkwiseunlocked, null));
             spot_two.setOnClickListener(new View.OnClickListener() {
                 @Override
