@@ -43,7 +43,7 @@ public class GeoFenceHelper extends ContextWrapper {
 
         Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
         //MIGHT NEED TO BE CHANGED
-        pendingIntent = PendingIntent.getBroadcast(this,2607, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        pendingIntent = PendingIntent.getBroadcast(this,2607, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
 
         return pendingIntent;
     }
