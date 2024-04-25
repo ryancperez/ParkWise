@@ -1,12 +1,15 @@
 package com.example.parkwise;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +27,10 @@ public class SettingsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    SharedPreferences sharedPreferences;
+    private String username;
+    TextView textUsername;
+
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -37,6 +44,15 @@ public class SettingsFragment extends Fragment {
      * @return A new instance of fragment SettingsFragment.
      */
     // TODO: Rename and change types and number of parameters
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "default_value");
+    }
+
+
     public static SettingsFragment newInstance(String param1, String param2) {
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
@@ -59,6 +75,16 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        textUsername = view.findViewById(R.id.username);
+
+        if (username != null)
+            textUsername.setText(username);
+        else
+            textUsername.setText("username");
+
+        return view;
     }
+
 }
