@@ -1,6 +1,7 @@
 package com.example.parkwise;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ParkingMap#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ParkingMap extends Fragment {
+
+    private static final String TAG = "ParkingMap";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,6 +38,10 @@ public class ParkingMap extends Fragment {
     private boolean oneEnabled = false;
     private ImageButton spot_two;
     private boolean twoEnabled = false;
+    private String device1ID = "1";
+    private String device2ID = "2";
+
+    private String[] devices = {device1ID,device2ID};
 
     public ParkingMap() {
         // Required empty public constructor
@@ -69,47 +81,30 @@ public class ParkingMap extends Fragment {
 
         spot_one = view.findViewById(R.id.spot_one);
         spot_two = view.findViewById(R.id.spot_two);
+        setAvailability();
 
         spot_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!oneEnabled) {
-                    spot_one.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.parkwiseunlocked, null));
-//                    oneEnabled = true;
-
                     Fragment fragment = new vipPayment();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.fragment_container, fragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
-                }
-                else {
-                    spot_one.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.parkwiselocked, null));
-//                    oneEnabled = false;
-                }
             }
         });
 
         spot_two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!twoEnabled) {
-                    spot_two.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.parkwiseunlocked, null));
-//                    twoEnabled = true;
-
                     Fragment fragment = new vipPayment();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.fragment_container, fragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
-                }
-                else{
                     spot_two.setImageDrawable(ResourcesCompat.getDrawable(getResources(),R.drawable.parkwiselocked, null ));
-//                    twoEnabled = false;
-                }
-
             }
         });
 
@@ -117,4 +112,53 @@ public class ParkingMap extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
+    private void setAvailability(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DatabaseConnector dbConnector = new DatabaseConnector();
+                String sql = "SELECT isAvailable FROM ParkWise.Device WHERE deviceID = ?;";
+                try (Connection conn = dbConnector.getConnection();
+                     PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+                        for (String device : devices) {
+                            // Insert the new user data into the database
+
+//                            PreparedStatement pstmt = conn.prepareStatement(sql);
+                            pstmt.setString(1, device);
+                            try(ResultSet resultSet = pstmt.executeQuery();){
+                                if (resultSet.next()) {
+                                    Log.d(TAG, "GOT AVAILABILITY");
+                                    boolean isAvailable = resultSet.getBoolean("isAvailable");
+                                    setButtonImage(isAvailable,device);
+                                }
+                                else{
+                                    Log.d(TAG, "Device not found");
+                                }
+                            } catch (SQLException e) {e.printStackTrace();}
+
+                        }
+
+
+                }
+                catch (SQLException e) {e.printStackTrace();}
+
+            }
+        }).start();
+    }
+
+    private void setButtonImage(boolean available, String id){
+        if (available && id == device1ID){
+            spot_one.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.parkwiseunlocked, null));
+
+
+        }
+        if (available && id == device2ID){
+            spot_two.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.parkwiseunlocked, null));
+        }
+
+    }
+
+
 }
