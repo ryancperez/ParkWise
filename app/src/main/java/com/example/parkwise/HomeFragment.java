@@ -1,15 +1,20 @@
 package com.example.parkwise;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -25,6 +30,13 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Locale;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +45,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
+    private static final String TAG = "HomeFragment";
     private GoogleMap map;
     private SupportMapFragment mapFragment;
 //    private GeofencingClient geofencingClient;
@@ -40,6 +53,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private Adapter infoWindowAdapter;
     private static final String map_type_key = "67682c525b346928";
+    private String username;
+    SharedPreferences sharedPreferences;
+    private CountDownTimer timer;
+    long endtimeMS = -1;
+    TextView countDownTimer;
 
 
 
@@ -65,6 +83,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
      * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
+
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -72,6 +91,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "default_value");
     }
 
     @Override
@@ -82,13 +107,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        setTimer();
+
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
+            countDownTimer = view.findViewById(R.id.timer);
         // Obtain the SupportMapFragment asynchronously
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapContainer);
         if (mapFragment == null) {
@@ -99,6 +126,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         }
         mapFragment.getMapAsync(this); // This triggers onMapReady when the map is ready
 
+        startTimer();
         return view;
     }
 
@@ -271,6 +299,72 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             //Toast.makeText(requireContext(), "Lot " + lotName + " - Available Stalls: " + availableStalls, Toast.LENGTH_LONG).show();
         }
     }
+
+    private void setTimer(){
+        if (!username.equals("default_value"))
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DatabaseConnector dbConnector = new DatabaseConnector();
+                String sql = "SELECT end_datetime FROM ParkWise.time_table WHERE username = ? " +
+                        "ORDER BY start_time DESC LIMIT 1;";
+                try (Connection conn = dbConnector.getConnection();
+                     PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+                        pstmt.setString(1, username);
+                        try(ResultSet resultSet = pstmt.executeQuery();){
+                            if (resultSet.next()) {
+                                Log.d(TAG, "**GOT END_TIME**");
+                                Timestamp endtime = resultSet.getTimestamp("end_datetime");
+                                endtimeMS = endtime.getTime();
+                            }
+                            else{
+                                Log.d(TAG, "**END_TIME NOT FOUND**");
+                                endtimeMS = 0;
+                            }
+                        } catch (SQLException e) {e.printStackTrace(); endtimeMS = 0;}
+
+                }
+                catch (SQLException e) {e.printStackTrace(); endtimeMS = 0;}
+
+            }
+        }).start();
+        else
+            endtimeMS = 0;
+    }
+
+
+    private void startTimer(){
+        long now = System.currentTimeMillis();
+        Log.d(TAG, "startTimer: Entered Function");
+//        setTimer();
+        while(endtimeMS == -1){
+
+        }
+        if (endtimeMS - now < 0){
+            Log.d(TAG, "**OUT OF BOUNDS TIME. TIMER NOT SET**");
+        }
+        else {
+            long timerLeft = Math.abs(endtimeMS - now);
+            timer = new CountDownTimer(timerLeft, 1000) {
+                @Override
+                public void onTick(long l) {
+                    long hrs = (l / 1000) / 3600;
+                    long min = (l/ 1000) % 3600 / 60;
+                    long sec = (l / 1000) % 60;
+                    String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hrs, min, sec);
+                    Log.d(TAG, "**" + timeFormatted + "**" );
+                    countDownTimer.setText(timeFormatted);
+                }
+
+                @Override
+                public void onFinish() {
+                    countDownTimer.setText("00:00:00");
+                }
+            }.start();
+        }
+    }
+
 }
 
 

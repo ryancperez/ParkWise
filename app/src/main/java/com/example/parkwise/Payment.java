@@ -1,5 +1,7 @@
 package com.example.parkwise;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +17,8 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -34,6 +36,8 @@ public class Payment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    SharedPreferences sharedPreferences;
+    private String username;
 
     public Payment() {
         // Required empty public constructor
@@ -51,6 +55,7 @@ public class Payment extends Fragment {
      * @return A new instance of fragment Payment.
      */
     // TODO: Rename and change types and number of parameters
+
     public static Payment newInstance(String param1, String param2) {
         Payment fragment = new Payment();
         Bundle args = new Bundle();
@@ -58,6 +63,12 @@ public class Payment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "default_value");
     }
 
     @Override
@@ -159,30 +170,51 @@ public class Payment extends Fragment {
 
 
     private void performPayment(String time) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    showToast("Attempting to connect to database...");
+//                    DatabaseConnector dbConnector = new DatabaseConnector();
+//                    Connection conn = dbConnector.getConnection();
+//                    if (conn != null) {
+//                        showToast("Database connection successful!");
+//                        Statement stmt = conn.createStatement();
+//                        String sql = "INSERT INTO time_table (start_datetime, end_datetime, username) " +
+//                                "VALUES (TIME_FORMAT(NOW(), '%H:%i:%s'), " +
+//                                "TIME_FORMAT(DATE_ADD(NOW(), INTERVAL ? MINUTE), '%H:%i:%s'), ?);";
+//                        stmt.executeUpdate(sql); // Execute the query
+//                        stmt.close(); // Close the statement
+//                        conn.close(); // Close the database connection
+//                        showToastOnUiThread("Payment successful!");
+//                    } else {
+//                        showToastOnUiThread("Database connection failed. Please check your network.");
+//                    }
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                    showToastOnUiThread("Payment failed. Please try again.");
+//                }
+//            }
+//        }).start();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    showToast("Attempting to connect to database...");
-                    DatabaseConnector dbConnector = new DatabaseConnector();
-                    Connection conn = dbConnector.getConnection();
-                    if (conn != null) {
-                        showToast("Database connection successful!");
-                        Statement stmt = conn.createStatement();
-                        String sql = "INSERT INTO time_table (start_time, end_time) " +
-                                "VALUES (TIME_FORMAT(NOW(), '%H:%i:%s'), " +
-                                "TIME_FORMAT(DATE_ADD(NOW(), INTERVAL " + time + " MINUTE), '%H:%i:%s'));";
-                        stmt.executeUpdate(sql); // Execute the query
-                        stmt.close(); // Close the statement
-                        conn.close(); // Close the database connection
-                        showToastOnUiThread("Payment successful!");
-                    } else {
-                        showToastOnUiThread("Database connection failed. Please check your network.");
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    showToastOnUiThread("Payment failed. Please try again.");
+                DatabaseConnector dbConnector = new DatabaseConnector();
+                String sql = "INSERT INTO time_table (start_datetime, end_datetime, username) " +
+                        "VALUES (TIME(NOW()), TIME(DATE_ADD(NOW(), INTERVAL ? MINUTE)), ?)";
+                try (Connection conn = dbConnector.getConnection();
+                     PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+                    pstmt.setString(1, time);
+                    pstmt.setString(2, username);
+                    pstmt.executeUpdate();
+
+                    showToastOnUiThread("Payment Successful!");
+
                 }
+                catch (SQLException e) {e.printStackTrace(); showToastOnUiThread("Payment Unsuccessful");}
+
             }
         }).start();
     }

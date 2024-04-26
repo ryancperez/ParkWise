@@ -7,6 +7,7 @@
     android:background="@color/white"
     tools:context=".HomeFragment">
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
@@ -36,39 +37,43 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/timer"
+            android:layout_width="200sp"
+            android:text="00:00:00"
+            android:textSize="45sp"
+            android:textAlignment="center"
+            android:layout_height="55sp"
             android:background="@drawable/rounded_corners" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:text=":"
-            android:textColor="@color/my_primary"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:text=":"-->
+<!--            android:textColor="@color/my_primary"-->
+<!--            android:textSize="30sp"-->
+<!--            android:textStyle="bold" />-->
 
-        <TextView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_corners" />
+<!--        <TextView-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/rounded_corners" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:text=":"
-            android:textColor="@color/my_primary"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:text=":"-->
+<!--            android:textColor="@color/my_primary"-->
+<!--            android:textSize="30sp"-->
+<!--            android:textStyle="bold" />-->
 
-        <TextView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_corners" />
+<!--        <TextView-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/rounded_corners" />-->
 
     </LinearLayout>
 

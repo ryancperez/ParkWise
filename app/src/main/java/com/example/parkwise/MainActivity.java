@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     LatLng CSUN = new LatLng(34.2408, -118.5301);
     private GeoFenceHelper geoFenceHelper;
     private boolean loginAccepted = false;
+    LoadingDialog loadingDialog = new LoadingDialog(MainActivity.this);
+
 
     ActivityResultLauncher<String[]> locationPermissionRequest =
             registerForActivityResult(new ActivityResultContracts
@@ -99,8 +102,13 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                loadingDialog.startLoadingDialog();
+                forcecloseDialog(5000);
                 login();
-                openMenu();
+
+                if (loginAccepted)
+                    openMenu();
 
             }
         });
@@ -153,9 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Create a new Thread to perform the signup operation
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+
                 try {
                     DatabaseConnector dbConnector = new DatabaseConnector();
                     Connection conn = dbConnector.getConnection();
@@ -190,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     showToast("Incorrect password or username.Please try again");
+                                    loadingDialog.dismissDialog();
                                 }
                             });
                         }
@@ -206,8 +213,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-            }
-        }).start();
+
     }
 
     private void addGeofence(LatLng latLng, float radius) {
@@ -240,6 +246,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void forcecloseDialog(long milli){
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadingDialog.dismissDialog();
+            }
+        }, milli);
+    }
+
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
