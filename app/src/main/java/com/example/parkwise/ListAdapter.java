@@ -30,6 +30,10 @@ public class ListAdapter extends ArrayAdapter<UserData> {
         TextView listName = view.findViewById(R.id.listname);
         TextView listTime = view.findViewById(R.id.listTime);
 
+        listImage.setImageResource(userData.profileImg);
+        listName.setText(userData.firstName + " " + userData.lastName);
+        listTime.setText(userData.role);
+
         return view;
     }
 

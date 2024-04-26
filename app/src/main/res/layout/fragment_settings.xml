@@ -49,7 +49,7 @@
             android:layout_width="108dp"
             android:layout_height="108dp"
             android:layout_gravity="center"
-            android:src="@drawable/avatar"
+            android:src="@drawable/user_filler"
     />
     <TextView
         android:id="@+id/username"

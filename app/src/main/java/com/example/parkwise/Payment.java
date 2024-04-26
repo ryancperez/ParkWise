@@ -170,33 +170,6 @@ public class Payment extends Fragment {
 
 
     private void performPayment(String time) {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    showToast("Attempting to connect to database...");
-//                    DatabaseConnector dbConnector = new DatabaseConnector();
-//                    Connection conn = dbConnector.getConnection();
-//                    if (conn != null) {
-//                        showToast("Database connection successful!");
-//                        Statement stmt = conn.createStatement();
-//                        String sql = "INSERT INTO time_table (start_datetime, end_datetime, username) " +
-//                                "VALUES (TIME_FORMAT(NOW(), '%H:%i:%s'), " +
-//                                "TIME_FORMAT(DATE_ADD(NOW(), INTERVAL ? MINUTE), '%H:%i:%s'), ?);";
-//                        stmt.executeUpdate(sql); // Execute the query
-//                        stmt.close(); // Close the statement
-//                        conn.close(); // Close the database connection
-//                        showToastOnUiThread("Payment successful!");
-//                    } else {
-//                        showToastOnUiThread("Database connection failed. Please check your network.");
-//                    }
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                    showToastOnUiThread("Payment failed. Please try again.");
-//                }
-//            }
-//        }).start();
-
         new Thread(new Runnable() {
             @Override
             public void run() {

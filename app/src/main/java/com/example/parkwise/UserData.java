@@ -1,18 +1,22 @@
 package com.example.parkwise;
 
 public class UserData {
-    String firstName, lastName;
-    int image;
-    int ID;
-    String time;
-    String car;
+    String username;
+    int profileImg;
+    String firstName;
+    String lastName;
+    String email;
+    String role;
+    String startTime;
+    String endTime;
 
-    public UserData(String firstName, String lastName, int image, int ID, String time, String car) {
+    UserData (String username, int profileImg, String firstName, String lastName, String email, String role){
+        this.username = username;
+        this.profileImg = profileImg;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.image = image;
-        this.ID = ID;
-        this.time = time;
-        this.car = car;
+        this.email = email;
+        this.role = role;
     }
+
 }
