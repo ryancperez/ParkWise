@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
     private SupportMapFragment mapFragment;
 //    private GeofencingClient geofencingClient;
-    private float GEOFENCE_RADIUS = 400;
+    private final float GEOFENCE_RADIUS = 400;
 
     private Adapter infoWindowAdapter;
     private static final String map_type_key = "67682c525b346928";

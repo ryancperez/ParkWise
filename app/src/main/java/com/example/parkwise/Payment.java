@@ -201,11 +201,13 @@ public class Payment extends Fragment {
             @Override
             public void run() {
                 DatabaseConnector dbConnector = new DatabaseConnector();
+                String TZ = "set time_zone = 'America/Los_Angeles';";
                 String sql = "INSERT INTO time_table (start_datetime, end_datetime, username) " +
-                        "VALUES (TIME(NOW()), TIME(DATE_ADD(NOW(), INTERVAL ? MINUTE)), ?)";
+                            "VALUES (TIME(NOW()), TIME(DATE_ADD(NOW(), INTERVAL ? MINUTE)), ?)";
                 try (Connection conn = dbConnector.getConnection();
-                     PreparedStatement pstmt = conn.prepareStatement(sql);) {
-
+                     PreparedStatement pstmt = conn.prepareStatement(sql);
+                     PreparedStatement setTZ = conn.prepareStatement(TZ);) {
+                    setTZ.executeUpdate();
                     pstmt.setString(1, time);
                     pstmt.setString(2, username);
                     pstmt.executeUpdate();
