@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,7 +127,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         }
         mapFragment.getMapAsync(this); // This triggers onMapReady when the map is ready
 
-        startTimer();
+//        startTimer();
         return view;
     }
 
@@ -301,15 +302,16 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void setTimer(){
-        if (!username.equals("default_value"))
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DatabaseConnector dbConnector = new DatabaseConnector();
-                String sql = "SELECT end_datetime FROM ParkWise.time_table WHERE username = ? " +
-                        "ORDER BY start_time DESC LIMIT 1;";
-                try (Connection conn = dbConnector.getConnection();
-                     PreparedStatement pstmt = conn.prepareStatement(sql);) {
+        if (!username.equals("default_value")){
+            Handler handler = new Handler();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    DatabaseConnector dbConnector = new DatabaseConnector();
+                    String sql = "SELECT end_datetime FROM ParkWise.time_table WHERE username = ? " +
+                            "ORDER BY end_datetime DESC LIMIT 1;";
+                    try (Connection conn = dbConnector.getConnection();
+                         PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
                         pstmt.setString(1, username);
                         try(ResultSet resultSet = pstmt.executeQuery();){
@@ -317,6 +319,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                                 Log.d(TAG, "**GOT END_TIME**");
                                 Timestamp endtime = resultSet.getTimestamp("end_datetime");
                                 endtimeMS = endtime.getTime();
+                                startTimer();
+                                Log.d(TAG, "run: endtime = " + endtime.toString());
                             }
                             else{
                                 Log.d(TAG, "**END_TIME NOT FOUND**");
@@ -324,11 +328,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                             }
                         } catch (SQLException e) {e.printStackTrace(); endtimeMS = 0;}
 
-                }
-                catch (SQLException e) {e.printStackTrace(); endtimeMS = 0;}
+                    }
+                    catch (SQLException e) {e.printStackTrace(); endtimeMS = 0;}
 
-            }
-        }).start();
+                }
+            });
+        }
         else
             endtimeMS = 0;
     }
@@ -337,10 +342,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private void startTimer(){
         long now = System.currentTimeMillis();
         Log.d(TAG, "startTimer: Entered Function");
-//        setTimer();
-        while(endtimeMS == -1){
 
-        }
         if (endtimeMS - now < 0){
             Log.d(TAG, "**OUT OF BOUNDS TIME. TIMER NOT SET**");
         }

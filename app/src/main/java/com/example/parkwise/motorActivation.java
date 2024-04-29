@@ -17,11 +17,13 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.UUID;
@@ -65,6 +67,16 @@ public class motorActivation extends AppCompatActivity {
     private void ensureBluetoothEnabled() {
         if (!bluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         } else {
             connectToDevice();
@@ -83,6 +95,16 @@ public class motorActivation extends AppCompatActivity {
         if (bluetoothGatt != null && signalCharacteristic != null) {
             byte[] signalBytes = ByteBuffer.allocate(2).order(ByteOrder.LITTLE_ENDIAN).putShort(signal).array();
             signalCharacteristic.setValue(signalBytes);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             bluetoothGatt.writeCharacteristic(signalCharacteristic);
         } else {
             Log.d(TAG, "Service not discovered or characteristic not found.");

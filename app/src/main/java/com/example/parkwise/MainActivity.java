@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
                 forcecloseDialog(5000);
                 login();
 
-                if (loginAccepted)
-                    openMenu();
+//                if (loginAccepted)
+//                    openMenu();
 
             }
         });
@@ -161,7 +161,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Create a new Thread to perform the signup operation
-
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
                 try {
                     DatabaseConnector dbConnector = new DatabaseConnector();
                     Connection conn = dbConnector.getConnection();
@@ -177,26 +180,26 @@ public class MainActivity extends AppCompatActivity {
 
                         if (resultSet.next()) {
                             // Matching user found, show a success message
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("username", usernameText);
+                            editor.apply();
+                            loadingDialog.dismissDialog();
+                            openMenu();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     showToast("You have logged in");
                                     loginAccepted = true;
-
-
-                                    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("username", usernameText);
-                                    editor.apply();
                                 }
                             });
                         } else {
                             // No matching user found, show an error message
+                            loadingDialog.dismissDialog();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     showToast("Incorrect password or username.Please try again");
-                                    loadingDialog.dismissDialog();
                                 }
                             });
                         }
@@ -213,6 +216,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
 
     }
 
