@@ -39,7 +39,7 @@ public class vipPayment extends Fragment {
     private String mParam1;
     private String mParam2;
     SharedPreferences sharedPreferences;
-    String username;
+    String username, deviceID;
 
     public vipPayment() {
         // Required empty public constructor
@@ -76,6 +76,8 @@ public class vipPayment extends Fragment {
         super.onAttach(context);
         sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "default_value");
+        deviceID = sharedPreferences.getString("deviceID", "default_value");
+
     }
 
     @Override
@@ -171,15 +173,28 @@ public class vipPayment extends Fragment {
                 String TZ = "set time_zone = 'America/Los_Angeles';";
                 String sql = "INSERT INTO time_table (start_datetime, end_datetime, username) " +
                         "VALUES (TIME(NOW()), TIME(DATE_ADD(NOW(), INTERVAL ? MINUTE)), ?)";
+                String vip = "UPDATE USER SET vip = true WHERE username = ?;";
+                String device = "UPDATE Device SET isAvailable = false WHERE deviceID = ?;";
                 try (Connection conn = dbConnector.getConnection();
                      PreparedStatement pstmt = conn.prepareStatement(sql);
-                     PreparedStatement setTZ = conn.prepareStatement(TZ)) {
+                     PreparedStatement setTZ = conn.prepareStatement(TZ);
+                     PreparedStatement setVIP = conn.prepareStatement(vip);
+                     PreparedStatement setDevice = conn.prepareStatement(device)) {
                     setTZ.executeUpdate();
                     pstmt.setString(1, time);
                     pstmt.setString(2, username);
                     pstmt.executeUpdate();
+                    setVIP.setString(1, username);
+                    setVIP.executeUpdate();
+                    setDevice.setString(1,deviceID);
+                    setDevice.executeUpdate();
 
                     showToastOnUiThread("Payment Successful!");
+
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isVIP", true);
+                    editor.apply();
 
                 }
                 catch (SQLException e) {e.printStackTrace(); showToastOnUiThread("Payment Unsuccessful");}
@@ -189,20 +204,10 @@ public class vipPayment extends Fragment {
     }
 
     private void showToast(final String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-            }
-        });
+        getActivity().runOnUiThread(() -> Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
     }
 
     private void showToastOnUiThread(final String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                showToast(message);
-            }
-        });
+        getActivity().runOnUiThread(() -> showToast(message));
     }
 }

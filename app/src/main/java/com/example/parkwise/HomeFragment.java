@@ -355,7 +355,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     long min = (l/ 1000) % 3600 / 60;
                     long sec = (l / 1000) % 60;
                     String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hrs, min, sec);
-                    Log.d(TAG, "**" + timeFormatted + "**" );
+//                    Log.d(TAG, "**" + timeFormatted + "**" );
                     countDownTimer.setText(timeFormatted);
                 }
 

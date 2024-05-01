@@ -47,8 +47,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
                 notificationHelper.sendHighPriorityNotificationToOpenFragment("You're Entering CSUN! Click here to pay for parking.", "", Payment.class);
                 break;
             case Geofence.GEOFENCE_TRANSITION_DWELL:
-                Toast.makeText(context, "ParkWise Parking", Toast.LENGTH_SHORT).show();
-                notificationHelper.sendHighPriorityNotificationToOpenFragment("Don't forget to pay for parking! Click here to pay.", "", Payment.class);
+                //in order to stop notif spam, not going to include this.
                 break;
             case Geofence.GEOFENCE_TRANSITION_EXIT:
                 Toast.makeText(context, "ParkWise Parking", Toast.LENGTH_SHORT).show();

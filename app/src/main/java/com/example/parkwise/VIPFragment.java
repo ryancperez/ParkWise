@@ -5,23 +5,30 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class VIPFragment extends Fragment {
     private BluetoothHelper bluetoothHelper;
     private ImageButton mainButton;
+    private Button cancelButton;
     private boolean lock = true;
 
-    private String deviceID;
+    private String deviceID, username, deviceSQLID;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -37,13 +44,16 @@ public class VIPFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "default_value");
         deviceID = sharedPreferences.getString("device", "default_value");
+        deviceSQLID = sharedPreferences.getString("deviceID", "default_value");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_v_i_p, container, false);
         mainButton = view.findViewById(R.id.mainButton);
+        cancelButton = view.findViewById(R.id.cancel_button);
         mainButton.setOnClickListener(v -> {
             if (!lock) {
                 bluetoothHelper.sendSignal((short) 1);
@@ -54,8 +64,46 @@ public class VIPFragment extends Fragment {
             updateButtonImage();
         });
 
+        cancelButton.setOnClickListener( v -> {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("isVIP",false);
+            editor.putString("device", "default_value");
+            editor.apply();
+            removeVIP();
+        });
+
         showPopupWindow();
         return view;
+    }
+
+    private void removeVIP() {
+        Handler handler = new Handler();
+        handler.post(() -> {
+            DatabaseConnector dbConnector = new DatabaseConnector();
+            String TZ = "set time_zone = 'America/Los_Angeles';";
+            String vip = "UPDATE USER SET vip = false WHERE username = ?;";
+            String sql = "UPDATE time_table SET end_datetime = TIME(NOW()) WHERE username = ?;";
+            String device = "UPDATE Device SET isAvailable = true WHERE deviceID = ?;";
+            try (Connection conn = dbConnector.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql);
+                 PreparedStatement setVIP = conn.prepareStatement(vip);
+                 PreparedStatement setTZ = conn.prepareStatement(TZ);
+                 PreparedStatement setDevice = conn.prepareStatement(device)) {
+                setTZ.executeUpdate();
+                setVIP.setString(1,username);
+                setVIP.executeUpdate();
+                pstmt.setString(1, username);
+                pstmt.executeUpdate();
+                setDevice.setString(1,deviceSQLID);
+                setDevice.executeUpdate();
+
+                showToastOnUiThread("Successful!");
+
+            }
+            catch (SQLException e) {e.printStackTrace(); showToastOnUiThread("Unsuccessful. Try Again.");}
+        });
+
     }
 
     @Override
@@ -101,5 +149,23 @@ public class VIPFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         bluetoothHelper.close();
+    }
+
+    private void showToastOnUiThread(final String message) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showToast(message);
+            }
+        });
+    }
+
+    private void showToast(final String message) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

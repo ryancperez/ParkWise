@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private GeofencingClient geofencingClient;
-    private float GEOFENCE_RADIUS = 400;
+    private float GEOFENCE_RADIUS = 700;
     private String GEOFENCE_ID = "CSUN";
     LatLng CSUN = new LatLng(34.2408, -118.5301);
     private GeoFenceHelper geoFenceHelper;

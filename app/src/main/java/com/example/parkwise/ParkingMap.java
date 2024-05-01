@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -42,6 +43,8 @@ public class ParkingMap extends Fragment {
     private String device2ID = "2";
 
     private String[] devices = {device1ID,device2ID};
+    SharedPreferences sharedPreferences;
+    boolean isVIP;
 
     public ParkingMap() {
         // Required empty public constructor
@@ -75,6 +78,16 @@ public class ParkingMap extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        isVIP = sharedPreferences.getBoolean("isVIP", false);
+
+        if (isVIP)
+            openVipFragment();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_parking_map, container, false);
@@ -103,8 +116,8 @@ public class ParkingMap extends Fragment {
                             pstmt.setString(1, device);
                             try(ResultSet resultSet = pstmt.executeQuery();){
                                 if (resultSet.next()) {
-                                    Log.d(TAG, "GOT AVAILABILITY");
                                     boolean isAvailable = resultSet.getBoolean("isAvailable");
+                                    Log.d(TAG, "GOT AVAILABILITY" + isAvailable);
                                     setButtonImage(isAvailable,device);
                                 }
                                 else{
@@ -131,6 +144,7 @@ public class ParkingMap extends Fragment {
 
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("deviceID", "1");
                     editor.putString("device","DC:54:75:CA:F0:41");
                     editor.apply();
 
@@ -143,7 +157,7 @@ public class ParkingMap extends Fragment {
                 }
             });
         }
-        if (available && id.equals(device1ID)){
+        if (available && id.equals(device2ID)){
             spot_two.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.parkwiseunlocked, null));
             spot_two.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -151,6 +165,7 @@ public class ParkingMap extends Fragment {
 
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("deviceID", "2");
                     editor.putString("device","DC:54:75:C9:53:15");
                     editor.apply();
 
@@ -165,6 +180,15 @@ public class ParkingMap extends Fragment {
             });
         }
 
+    }
+
+    private void openVipFragment(){
+        Fragment fragment = new VIPFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 
