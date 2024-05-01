@@ -2,4 +2,6 @@
     <string name="app_name">ParkWise</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="vipCancelButtonText">Leaving? Release Spot for others!</string>
+    <string name="parkwise">ParkWise</string>
 </resources>

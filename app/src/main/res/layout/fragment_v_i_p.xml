@@ -27,7 +27,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="100dp"
         android:textColor="@color/white"
-        android:text="Leaving? Release Spot for others!" />
+        android:text="@string/vipCancelButtonText" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -45,21 +45,31 @@
         android:background="@color/my_primary"
         android:fontFamily="sans-serif-black"
         android:paddingTop="12dp"
-        android:text="ParkWise"
+        android:text="@string/parkwise"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="50dp" />
+        android:textSize="50sp" />
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="179dp"
-        android:layout_height="30dp"
+    <TextView
+        android:id="@+id/lotandDevice"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/mainButton"
+        android:layout_below="@+id/imageView"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="116dp"
-        android:layout_marginEnd="116dp"
-        android:layout_marginBottom="96dp" />
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="0dp"
+        android:fontFamily="sans-serif-black"
+        android:background="@drawable/rounded_corners"
+        android:elevation="10dp"
+        android:padding="5dp"
+        android:text="Lot: B5 Device: 1"
+        android:textAlignment="center"
+        android:textColor="@color/primary"
+        android:textSize="30sp" />
 
 
 </RelativeLayout>

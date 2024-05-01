@@ -26,6 +26,7 @@ public class VIPFragment extends Fragment {
     private BluetoothHelper bluetoothHelper;
     private ImageButton mainButton;
     private boolean lock = true;
+    TextView lotandDevice;
 
     private String deviceID, username, deviceSQLID;
     SharedPreferences sharedPreferences;
@@ -51,6 +52,8 @@ public class VIPFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_v_i_p, container, false);
+        lotandDevice = view.findViewById(R.id.lotandDevice);
+        lotandDevice.setText("Lot: B5 Device: " + deviceSQLID);
         mainButton = view.findViewById(R.id.mainButton);
         Button cancelButton = view.findViewById(R.id.cancel_button);
         mainButton.setOnClickListener(v -> {
