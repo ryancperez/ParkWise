@@ -25,7 +25,6 @@ import java.sql.SQLException;
 public class VIPFragment extends Fragment {
     private BluetoothHelper bluetoothHelper;
     private ImageButton mainButton;
-    private Button cancelButton;
     private boolean lock = true;
 
     private String deviceID, username, deviceSQLID;
@@ -53,7 +52,7 @@ public class VIPFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_v_i_p, container, false);
         mainButton = view.findViewById(R.id.mainButton);
-        cancelButton = view.findViewById(R.id.cancel_button);
+        Button cancelButton = view.findViewById(R.id.cancel_button);
         mainButton.setOnClickListener(v -> {
             if (!lock) {
                 bluetoothHelper.sendSignal((short) 1);
@@ -64,7 +63,7 @@ public class VIPFragment extends Fragment {
             updateButtonImage();
         });
 
-        cancelButton.setOnClickListener( v -> {
+        cancelButton.setOnClickListener(v -> {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("isVIP",false);
