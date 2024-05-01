@@ -23,6 +23,8 @@ public class UserInformation extends AppCompatActivity {
             String username = intent.getStringExtra("username");
             String email = intent.getStringExtra("email");
             String role = intent.getStringExtra("role");
+            String lpNumber = intent.getStringExtra("LPnumber");
+            String carInfo = intent.getStringExtra("carMake") + " " + intent.getStringExtra("carColor");
             int image = intent.getIntExtra("image", R.drawable.user_filler);
 //            int id = intent.getIntExtra("id", 1);
 
@@ -30,6 +32,8 @@ public class UserInformation extends AppCompatActivity {
             binding.usernameInfo.setText("Username: " + username);
             binding.emailInfo.setText("Email: " + email);
             binding.roleInfo.setText("Role: " + role);
+            binding.carInfo.setText("Car: " + carInfo);
+            binding.licensePlateInfo.setText("LP #: " + lpNumber);
 
 
         }

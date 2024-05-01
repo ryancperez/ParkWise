@@ -1,5 +1,6 @@
 package com.example.parkwise;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -7,7 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,6 +53,8 @@ public class VIPFragment extends Fragment {
             lock = !lock;
             updateButtonImage();
         });
+
+        showPopupWindow();
         return view;
     }
 
@@ -76,6 +81,20 @@ public class VIPFragment extends Fragment {
                 // Permission denied. Handle the feature or inform the user accordingly.
             }
         }
+    }
+
+    private void showPopupWindow() {
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.popup_message); // Assuming you have a layout file for your popup
+
+        // Set up dialog content and buttons (e.g., using findViewById)
+        TextView messageText = dialog.findViewById(R.id.message);
+        messageText.setText("Must be in range to access stall!");
+
+        Button okButton = dialog.findViewById(R.id.ok_button);
+        okButton.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     @Override

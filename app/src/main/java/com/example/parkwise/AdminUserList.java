@@ -48,6 +48,9 @@ public class AdminUserList extends AppCompatActivity {
                 intent.putExtra("role", user.role);
                 intent.putExtra("image", user.profileImg);
                 intent.putExtra("username", user.username);
+                intent.putExtra("LPnumber", user.LPNumber);
+                intent.putExtra("carMake", user.carMake);
+                intent.putExtra("carColor", user.carColor);
                 startActivity(intent);
 
             }
@@ -78,7 +81,10 @@ public class AdminUserList extends AppCompatActivity {
                             resultSet.getString("firstName"),
                             resultSet.getString("lastName"),
                             resultSet.getString("email"),
-                            resultSet.getString("role")
+                            resultSet.getString("role"),
+                            resultSet.getString("LPnumber"),
+                            resultSet.getString("car_make"),
+                            resultSet.getString("car_color")
                     );
                     dataArrayList.add(user);
                 }

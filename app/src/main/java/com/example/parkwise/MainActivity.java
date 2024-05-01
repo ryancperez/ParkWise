@@ -162,60 +162,57 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a new Thread to perform the signup operation
         Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    DatabaseConnector dbConnector = new DatabaseConnector();
-                    Connection conn = dbConnector.getConnection();
-                    if (conn != null) {
+        handler.post(() -> {
+            try {
+                DatabaseConnector dbConnector = new DatabaseConnector();
+                Connection conn = dbConnector.getConnection();
+                if (conn != null) {
 
-                        // Insert the new user data into the database
-                        String sql = "SELECT * FROM USER WHERE username = ? AND password = ?";
-                        PreparedStatement pstmt = conn.prepareStatement(sql);
-                        pstmt.setString(1, usernameText);
-                        pstmt.setString(2, passwordText);
-                        ResultSet resultSet = pstmt.executeQuery();
+                    // Insert the new user data into the database
+                    String sql = "SELECT * FROM USER WHERE username = ? AND password = ?";
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, usernameText);
+                    pstmt.setString(2, passwordText);
+                    ResultSet resultSet = pstmt.executeQuery();
 
 
-                        if (resultSet.next()) {
-                            // Matching user found, show a success message
-                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("username", usernameText);
-                            editor.apply();
-                            loadingDialog.dismissDialog();
-                            openMenu();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showToast("You have logged in");
-                                    loginAccepted = true;
-                                }
-                            });
-                        } else {
-                            // No matching user found, show an error message
-                            loadingDialog.dismissDialog();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showToast("Incorrect password or username.Please try again");
-                                }
-                            });
-                        }
-
-                        resultSet.close();
-                        pstmt.close();
+                    if (resultSet.next()) {
+                        // Matching user found, show a success message
+                        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("username", usernameText);
+                        editor.apply();
+                        loadingDialog.dismissDialog();
+                        openMenu();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showToast("You have logged in");
+                                loginAccepted = true;
+                            }
+                        });
+                    } else {
+                        // No matching user found, show an error message
+                        loadingDialog.dismissDialog();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showToast("Incorrect password or username.Please try again");
+                            }
+                        });
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            showToast("Sign-in failed. Please try again.");
-                        }
-                    });
+
+                    resultSet.close();
+                    pstmt.close();
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast("Sign-in failed. Please try again.");
+                    }
+                });
             }
         });
 
